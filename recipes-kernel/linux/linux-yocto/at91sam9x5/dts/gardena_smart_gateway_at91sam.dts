@@ -49,10 +49,6 @@
 				status = "okay";
 			};
 
-			ssc0: ssc@f0010000 {
-				status = "okay";
-			};
-
 			macb0: ethernet@f802c000 {
 				phy-mode = "rmii";
 				status = "okay";
@@ -60,28 +56,6 @@
 
 			dbgu: serial@fffff200 {
 				status = "okay";
-			};
-
-			usart0: serial@f801c000 {
-				atmel,use-dma-rx;
-				atmel,use-dma-tx;
-				status = "okay";
-			};
-
-			usb2: gadget@f803c000 {
-				pinctrl-names = "default";
-				pinctrl-0 = <&pinctrl_board_usb2>;
-				atmel,vbus-gpio = <&pioB 16 GPIO_ACTIVE_HIGH>;
-				status = "okay";
-			};
-
-			pinctrl@fffff400 {
-				usb2 {
-					pinctrl_board_usb2: usb2-board {
-						atmel,pins =
-							<AT91_PIOB 16 AT91_PERIPH_GPIO AT91_PINCTRL_DEGLITCH>;		/* PB16 gpio vbus sense, deglitch */
-					};
-				};
 			};
 		};
 
