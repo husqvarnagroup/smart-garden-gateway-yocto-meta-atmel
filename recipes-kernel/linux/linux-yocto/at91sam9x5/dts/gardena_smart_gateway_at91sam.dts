@@ -5,6 +5,10 @@
 	model = "GARDENA smart Gateway AT91SAM";
 	compatible = "gardena,at91sam", "atmel,at91sam9x5", "atmel,at91sam9";
 
+	aliases {
+		serial0 = &dbgu;
+	};
+
 	chosen {
 		stdout-path = "serial0:115200n8";
 	};
