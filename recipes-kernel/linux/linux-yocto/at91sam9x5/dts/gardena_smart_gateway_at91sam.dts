@@ -7,6 +7,7 @@
 
 	aliases {
 		serial0 = &dbgu;
+		serial4 = &usart3;
 	};
 
 	chosen {
@@ -56,6 +57,15 @@
 
 			dbgu: serial@fffff200 {
 				status = "okay";
+			};
+
+			usart3: serial@f8028000 {
+				status = "okay";
+
+				pinctrl-0 = <&pinctrl_usart3
+					     &pinctrl_usart3_rts
+					     &pinctrl_usart3_cts
+					    >;
 			};
 		};
 
