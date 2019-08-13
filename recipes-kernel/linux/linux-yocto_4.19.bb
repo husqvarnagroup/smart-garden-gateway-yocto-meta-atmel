@@ -10,12 +10,8 @@ KBUILD_DEFCONFIG_at91sam9x5 ?= "at91_dt_defconfig"
 
 SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.19;destsuffix=${KMETA} \
+           file://dts \
           "
-
-# Hardware specific settings
-SRC_URI_append_at91sam9x5 = "\
-    file://dts \
-"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
 LINUX_VERSION ?= "4.19.61"
@@ -38,8 +34,8 @@ KERNEL_FEATURES_append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " fe
 do_patch_append() {
     cp ${WORKDIR}/dts/* ${S}/arch/arm/boot/dts/
 
-    if ! grep -q "gardena_smart_gateway_at91sam.dtb" "${S}/arch/arm/boot/dts/Makefile"; then
-        echo '\ndtb-$(CONFIG_SOC_AT91SAM9) += gardena_smart_gateway_at91sam.dtb\n' >> \
+    if ! grep -q "YOCTO_DTBS" "${S}/arch/arm/boot/dts/Makefile"; then
+        echo '\n# YOCTO_DTBS\ndtb-$(CONFIG_SOC_AT91SAM9) += gardena_smart_gateway_at91sam.dtb\n' >> \
             ${S}/arch/arm/boot/dts/Makefile
     fi
 }
