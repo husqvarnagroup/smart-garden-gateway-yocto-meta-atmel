@@ -2,8 +2,8 @@ KBRANCH ?= "v4.19/standard/base"
 
 require recipes-kernel/linux/linux-yocto.inc
 
-SRCREV_machine ?= "b1d253af9cdeb237b4875ca6184c0cbdfbe65e70"
-SRCREV_meta ?= "772b96e00bb4d0dc4d2a18d2f7da7d5df53bf368"
+SRCREV_machine ?= "4ec6f255163da37a4c83528e5835b6b9baccee63"
+SRCREV_meta ?= "960be4218436fbbb3500e019f7abf02fa94e6aac"
 
 SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.19;destsuffix=${KMETA} \
@@ -60,7 +60,7 @@ SRC_URI_append_at91sam9x5 += "\
 "
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
-LINUX_VERSION ?= "4.19.57"
+LINUX_VERSION ?= "4.19.61"
 
 DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
 DEPENDS += "openssl-native util-linux-native"
