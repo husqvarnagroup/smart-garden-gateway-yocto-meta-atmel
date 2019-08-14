@@ -13,6 +13,10 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
            file://dts \
           "
 
+# Add meta-atmel kmeta
+FILESEXTRAPATHS_prepend := "${THISDIR}:"
+SRC_URI_append = " file://atmel-kmeta;type=kmeta;name=atmel-kmeta;destsuffix=atmel-kmeta"
+
 LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
 LINUX_VERSION ?= "4.19.61"
 
@@ -27,6 +31,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
 COMPATIBLE_MACHINE = "at91sam9x5"
 
 # Functionality flags
+KERNEL_FEATURES_append_gardena-sg-at91sam = " bsp/gardena-sg-at91sam/gardena-sg-at91sam.scc "
 KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
 KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
 KERNEL_FEATURES_append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/scsi/scsi-debug.scc", "" ,d)}"
