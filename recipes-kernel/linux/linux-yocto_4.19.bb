@@ -44,10 +44,3 @@ do_patch_append() {
             ${S}/arch/arm/boot/dts/Makefile
     fi
 }
-
-# TODO: how is this supposed to work? nothing in yocto calls that,
-#       yet it depends on dtbs being available.
-kernel_do_compile_append() {
-	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
-	oe_runmake -C ${B} ${PARALLEL_MAKE} dtbs CC="${KERNEL_CC} $cc_extra " LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS}
-}
