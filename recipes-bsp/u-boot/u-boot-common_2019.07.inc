@@ -16,3 +16,5 @@ SRC_URI = " \
 "
 
 S = "${WORKDIR}/git"
+
+COMPATIBLE_MACHINE = "at91sam9x5"
