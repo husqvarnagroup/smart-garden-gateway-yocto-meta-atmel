@@ -1,5 +1,6 @@
 /dts-v1/;
 #include "at91sam9g25.dtsi"
+#include <dt-bindings/input/input.h>
 
 / {
 	model = "GARDENA smart Gateway AT91SAM";
@@ -103,6 +104,16 @@
 
 		usb1: ehci@700000 {
 			status = "okay";
+		};
+	};
+
+	gpio-keys {
+		compatible = "gpio-keys";
+
+		user_btn1 {
+			label = "USER_BTN1";
+			gpios = <&pioA 24 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_PROG1>;
 		};
 	};
 
