@@ -13,6 +13,7 @@ SRCREV = "e5aee22e4be75e75a854ab64503fc80598bc2004"
 SRC_URI = " \
     git://git.denx.de/u-boot.git \
     file://mtdparts.patch \
+    file://bbt.patch \
 "
 
 S = "${WORKDIR}/git"
