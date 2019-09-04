@@ -8,7 +8,7 @@
 
 	aliases {
 		serial0 = &dbgu;
-		serial4 = &usart3;
+		serial1 = &usart3;
 	};
 
 	chosen {
