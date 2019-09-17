@@ -14,6 +14,7 @@ SRC_URI = " \
     git://git.denx.de/u-boot.git \
     file://mtdparts.patch \
     file://bbt.patch \
+    file://ubienv_names.patch \
 "
 
 S = "${WORKDIR}/git"

@@ -1,0 +1,15 @@
+diff --git a/include/configs/gardena-smart-gateway-at91sam.h b/include/configs/gardena-smart-gateway-at91sam.h
+index 02bf4d195f..b18c4ead88 100644
+--- a/include/configs/gardena-smart-gateway-at91sam.h
++++ b/include/configs/gardena-smart-gateway-at91sam.h
+@@ -45,8 +45,8 @@
+ 
+ /* environment organization */
+ #define CONFIG_ENV_UBI_PART		"ubi"
+-#define CONFIG_ENV_UBI_VOLUME		"env"
+-#define CONFIG_ENV_UBI_VOLUME_REDUND	"env_r"
++#define CONFIG_ENV_UBI_VOLUME		"uboot_env0"
++#define CONFIG_ENV_UBI_VOLUME_REDUND	"uboot_env1"
+ #define CONFIG_ENV_SIZE			(64 << 10)
+ 
+ /* SPL */
