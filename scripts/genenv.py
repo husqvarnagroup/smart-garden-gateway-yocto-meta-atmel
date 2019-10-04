@@ -56,6 +56,8 @@ def main():
 
     env['baudrate'] = '115200'
     env['bootslot'] = '0'
+    env['gateway_hardware_revision'] = '1.1b'
+
 
     for name in sorted(list(env)):
         print('%s=%s' % (name, env[name]))
