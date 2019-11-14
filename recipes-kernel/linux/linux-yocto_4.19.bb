@@ -40,7 +40,7 @@ do_patch_append() {
     cp ${WORKDIR}/dts/* ${S}/arch/arm/boot/dts/
 
     if ! grep -q "YOCTO_DTBS" "${S}/arch/arm/boot/dts/Makefile"; then
-        echo '\n# YOCTO_DTBS\ndtb-$(CONFIG_SOC_AT91SAM9) += gardena_smart_gateway_at91sam.dtb\n' >> \
+        printf '\n# YOCTO_DTBS\ndtb-$(CONFIG_SOC_AT91SAM9) += gardena_smart_gateway_at91sam.dtb\n' >> \
             ${S}/arch/arm/boot/dts/Makefile
     fi
 }
