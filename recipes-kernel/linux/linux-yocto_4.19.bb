@@ -2,8 +2,8 @@ KBRANCH ?= "v4.19/standard/base"
 
 require recipes-kernel/linux/linux-yocto.inc
 
-SRCREV_machine ?= "2d7c98a6748a64ca36fd1d2e60c517b16326df61"
-SRCREV_meta ?= "a7cb57afb9fb9787079c28a1028d797632105e56"
+SRCREV_machine ?= "a915fbeae8ed987402f69666d90bef15a01c5823"
+SRCREV_meta ?= "ad6f8b357720ca8167a090713b7746230cf4b314"
 
 KCONFIG_MODE = "--alldefconfig"
 KBUILD_DEFCONFIG_at91sam9x5 ?= "at91_dt_defconfig"
@@ -18,7 +18,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}:"
 SRC_URI_append = " file://atmel-kmeta;type=kmeta;name=atmel-kmeta;destsuffix=atmel-kmeta"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
-LINUX_VERSION ?= "4.19.72"
+LINUX_VERSION ?= "4.19.78"
 
 DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
 DEPENDS += "openssl-native util-linux-native"
