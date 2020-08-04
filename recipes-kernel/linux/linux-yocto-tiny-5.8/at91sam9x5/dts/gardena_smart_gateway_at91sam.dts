@@ -1,13 +1,21 @@
+// SPDX-License-Identifier: GPL-2.0+
+/*
+ * Device Tree file for the GARDENA smart Gateway (AT91SAM)
+ *
+ *  Copyright (C) 2020 GARDENA GmbH
+ */
+
 /dts-v1/;
+
 #include "at91sam9g25.dtsi"
+#include "at91sam9x5ek.dtsi"
 #include <dt-bindings/input/input.h>
 
 / {
-	model = "GARDENA smart Gateway AT91SAM";
-	compatible = "gardena,at91sam", "atmel,at91sam9x5", "atmel,at91sam9";
+	model = "GARDENA smart Gateway (AT91SAM)";
+	compatible = "gardena,smart-gateway-at91sam", "atmel,at91sam9x5ek", "atmel,at91sam9x5", "atmel,at91sam9";
 
 	aliases {
-		serial0 = &dbgu;
 		serial1 = &usart3;
 	};
 
@@ -19,94 +27,6 @@
 		reg = <0x20000000 0x8000000>;
 	};
 
-	clocks {
-		slow_xtal {
-			clock-frequency = <32768>;
-		};
-
-		main_xtal {
-			clock-frequency = <12000000>;
-		};
-	};
-
-	ahb {
-		apb {
-			tcb0: timer@f8008000 {
-				timer@0 {
-					compatible = "atmel,tcb-timer";
-					reg = <0>;
-				};
-
-				timer@1 {
-					compatible = "atmel,tcb-timer";
-					reg = <1>;
-				};
-			};
-
-			rtc@fffffeb0 {
-				status = "okay";
-			};
-
-			watchdog@fffffe40 {
-				status = "okay";
-			};
-
-			macb0: ethernet@f802c000 {
-				phy-mode = "rmii";
-				status = "okay";
-			};
-
-			dbgu: serial@fffff200 {
-				status = "okay";
-			};
-
-			usart3: serial@f8028000 {
-				status = "okay";
-
-				pinctrl-0 = <&pinctrl_usart3
-					     &pinctrl_usart3_rts
-					     &pinctrl_usart3_cts
-					    >;
-			};
-		};
-
-		ebi: ebi@10000000 {
-			pinctrl-0 = <&pinctrl_ebi_addr_nand
-				     &pinctrl_ebi_data_0_7>;
-			pinctrl-names = "default";
-			status = "okay";
-
-			nand_controller: nand-controller {
-				status = "okay";
-				pinctrl-0 = <&pinctrl_nand_oe_we
-					     &pinctrl_nand_cs
-					     &pinctrl_nand_rb>;
-				pinctrl-names = "default";
-
-				nand@3 {
-					reg = <0x3 0x0 0x800000>;
-					rb-gpios = <&pioD 5 GPIO_ACTIVE_HIGH>;
-					cs-gpios = <&pioD 4 GPIO_ACTIVE_HIGH>;
-					nand-bus-width = <8>;
-					nand-ecc-mode = "hw";
-					nand-ecc-strength = <2>;
-					nand-ecc-step-size = <512>;
-					nand-on-flash-bbt;
-					label = "atmel_nand";
-				};
-			};
-		};
-
-		usb0: ohci@600000 {
-			status = "okay";
-			num-ports = <3>;
-		};
-
-		usb1: ehci@700000 {
-			status = "okay";
-		};
-	};
-
 	gpio-keys {
 		compatible = "gpio-keys";
 
@@ -115,6 +35,10 @@
 			gpios = <&pioA 24 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_PROG1>;
 		};
+	};
+
+	1wire_cm {
+		status = "disabled";
 	};
 
 	leds {
@@ -179,5 +103,84 @@
 			gpios = <&pioB 8 GPIO_ACTIVE_HIGH>;
 			linux,default-trigger = "heartbeat";
 		};
+
+		pb18 {
+			status = "disabled";
+		};
+
+		pd21 {
+			status = "disabled";
+		};
 	};
+};
+
+&dbgu {
+	status = "okay";
+};
+
+&macb0 {
+	phy-mode = "rmii";
+	status = "okay";
+};
+
+&nand_controller {
+	status = "okay";
+};
+
+&usb0 {
+	status = "okay";
+	num-ports = <3>;
+};
+
+&usb1 {
+	status = "okay";
+};
+
+&usart0 {
+	status = "disabled";
+};
+
+&usart2 {
+	status = "disabled";
+};
+
+&dbgu {
+	status = "okay";
+};
+
+&usart3 {
+	status = "okay";
+
+	pinctrl-0 = <&pinctrl_usart3
+		     &pinctrl_usart3_rts
+		     &pinctrl_usart3_cts
+		    >;
+};
+
+&watchdog {
+	status = "okay";
+};
+
+&mmc0 {
+	status = "disabled";
+};
+
+&mmc1 {
+	status = "disabled";
+};
+
+&spi0 {
+	status = "disabled";
+};
+
+&i2c0 {
+	status = "disabled";
+};
+
+&adc0 {
+	status = "disabled";
+};
+
+&ssc0 {
+	status = "disabled";
 };
