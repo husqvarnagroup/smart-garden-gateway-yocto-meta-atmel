@@ -1,0 +1,230 @@
+From 49ee99ca4b9f489b8ac2f7f6a34e6fccaffe6053 Mon Sep 17 00:00:00 2001
+From: Reto Schneider <reto.schneider@husqvarnagroup.com>
+Date: Mon, 10 Aug 2020 11:37:47 +0200
+Subject: [PATCH] ARM: at91: Add GARDENA smart Gateway AT91SAM board
+
+This patch adds support for the GARDENA smart Gateway, which is based on
+the Atmel AT91SAM9G25. It is equipped with 128 MiB of DDR2 RAM and
+256 MiB NAND storage.
+
+Please note that this gateway is not actually based on a AT91SAM9x5 EK
+board, but is close enough to allow its DT to be used.
+
+Co-developed-by: Stefan Roese <sr@denx.de>
+Signed-off-by: Stefan Roese <sr@denx.de>
+Co-developed-by: Michael Zimmermann <michael.zimmermann@grandcentrix.net>
+Signed-off-by: Michael Zimmermann <michael.zimmermann@grandcentrix.net>
+Signed-off-by: Reto Schneider <reto.schneider@husqvarnagroup.com>
+---
+ arch/arm/boot/dts/Makefile                    |   1 +
+ .../dts/at91sam9g25-gardena-smart-gateway.dts | 186 ++++++++++++++++++
+ 2 files changed, 187 insertions(+)
+ create mode 100644 arch/arm/boot/dts/at91sam9g25-gardena-smart-gateway.dts
+
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index 4572db3fa5ae..d38d256f59fa 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -44,6 +44,7 @@ dtb-$(CONFIG_SOC_AT91SAM9) += \
+ 	at91-wb45n.dtb \
+ 	at91sam9g15ek.dtb \
+ 	at91sam9g25ek.dtb \
++	at91sam9g25-gardena-smart-gateway.dtb \
+ 	at91sam9g35ek.dtb \
+ 	at91sam9x25ek.dtb \
+ 	at91sam9x35ek.dtb
+diff --git a/arch/arm/boot/dts/at91sam9g25-gardena-smart-gateway.dts b/arch/arm/boot/dts/at91sam9g25-gardena-smart-gateway.dts
+new file mode 100644
+index 000000000000..19b0f67a7af6
+--- /dev/null
++++ b/arch/arm/boot/dts/at91sam9g25-gardena-smart-gateway.dts
+@@ -0,0 +1,186 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Device Tree file for the GARDENA smart Gateway (AT91SAM)
++ *
++ *  Copyright (C) 2020 GARDENA GmbH
++ */
++
++/dts-v1/;
++
++#include "at91sam9g25.dtsi"
++#include "at91sam9x5ek.dtsi"
++#include <dt-bindings/input/input.h>
++
++/ {
++	model = "GARDENA smart Gateway (AT91SAM)";
++	compatible = "gardena,smart-gateway-at91sam", "atmel,at91sam9g25", "atmel,at91sam9x5", "atmel,at91sam9";
++
++	aliases {
++		serial1 = &usart3;
++	};
++
++	chosen {
++		stdout-path = "serial0:115200n8";
++	};
++
++	memory {
++		reg = <0x20000000 0x8000000>;
++	};
++
++	gpio-keys {
++		compatible = "gpio-keys";
++
++		user_btn1 {
++			label = "USER_BTN1";
++			gpios = <&pioA 24 GPIO_ACTIVE_LOW>;
++			linux,code = <KEY_PROG1>;
++		};
++	};
++
++	1wire_cm {
++		status = "disabled";
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		power_blue {
++			label = "smartgw:power:blue";
++			gpios = <&pioC 21 GPIO_ACTIVE_HIGH>;
++			default-state = "off";
++		};
++
++		power_green {
++			label = "smartgw:power:green";
++			gpios = <&pioC 20 GPIO_ACTIVE_HIGH>;
++			default-state = "on";
++		};
++
++		power_red {
++			label = "smartgw:power:red";
++			gpios = <&pioC 19 GPIO_ACTIVE_HIGH>;
++			default-state = "off";
++		};
++
++		radio_blue {
++			label = "smartgw:radio:blue";
++			gpios = <&pioC 18 GPIO_ACTIVE_HIGH>;
++			default-state = "off";
++		};
++
++		radio_green {
++			label = "smartgw:radio:green";
++			gpios = <&pioC 17 GPIO_ACTIVE_HIGH>;
++			default-state = "off";
++		};
++
++		radio_red {
++			label = "smartgw:radio:red";
++			gpios = <&pioC 16 GPIO_ACTIVE_HIGH>;
++			default-state = "off";
++		};
++
++		internet_blue {
++			label = "smartgw:internet:blue";
++			gpios = <&pioC 15 GPIO_ACTIVE_HIGH>;
++			default-state = "off";
++		};
++
++		internet_green {
++			label = "smartgw:internet:green";
++			gpios = <&pioC 14 GPIO_ACTIVE_HIGH>;
++			default-state = "off";
++		};
++
++		internet_red {
++			label = "smartgw:internet:red";
++			gpios = <&pioC 13 GPIO_ACTIVE_HIGH>;
++			default-state = "off";
++		};
++
++		heartbeat {
++			label = "smartgw:heartbeat";
++			gpios = <&pioB 8 GPIO_ACTIVE_HIGH>;
++			linux,default-trigger = "heartbeat";
++		};
++
++		pb18 {
++			status = "disabled";
++		};
++
++		pd21 {
++			status = "disabled";
++		};
++	};
++};
++
++&dbgu {
++	status = "okay";
++};
++
++&macb0 {
++	phy-mode = "rmii";
++	status = "okay";
++};
++
++&nand_controller {
++	status = "okay";
++};
++
++&usb0 {
++	status = "okay";
++	num-ports = <3>;
++};
++
++&usb1 {
++	status = "okay";
++};
++
++&usart0 {
++	status = "disabled";
++};
++
++&usart2 {
++	status = "disabled";
++};
++
++&dbgu {
++	status = "okay";
++};
++
++&usart3 {
++	status = "okay";
++
++	pinctrl-0 = <&pinctrl_usart3
++		     &pinctrl_usart3_rts
++		     &pinctrl_usart3_cts
++		    >;
++};
++
++&watchdog {
++	status = "okay";
++};
++
++&mmc0 {
++	status = "disabled";
++};
++
++&mmc1 {
++	status = "disabled";
++};
++
++&spi0 {
++	status = "disabled";
++};
++
++&i2c0 {
++	status = "disabled";
++};
++
++&adc0 {
++	status = "disabled";
++};
++
++&ssc0 {
++	status = "disabled";
++};
+-- 
+2.27.0
+
