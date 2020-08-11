@@ -11,8 +11,8 @@ KCONFIG_MODE = "--allnoconfig"
 SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=master;destsuffix=${KMETA} \
            file://0001-net-macb-Properly-handle-phylink-on-at91sam9x.patch \
+           file://0002-ARM-at91-Add-GARDENA-smart-Gateway-AT91SAM-board.patch \
            file://defconfig \
-           file://dts \
           "
 LINUX_VERSION ?= "5.8"
 
@@ -24,7 +24,7 @@ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
 DEPENDS += "openssl-native util-linux-native"
 
 PV = "${LINUX_VERSION}+git${SRCPV}"
-PR_append = ".1"
+PR_append = ".2"
 
 KMETA = "kernel-meta"
 KCONF_BSP_AUDIT_LEVEL = "2"
@@ -35,12 +35,3 @@ COMPATIBLE_MACHINE = "at91sam9x5"
 KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
 KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
 KERNEL_FEATURES_append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/scsi/scsi-debug.scc", "" ,d)}"
-
-do_patch_append() {
-    cp ${WORKDIR}/dts/* ${S}/arch/arm/boot/dts/
-
-    if ! grep -q "YOCTO_DTBS" "${S}/arch/arm/boot/dts/Makefile"; then
-        printf '\n# YOCTO_DTBS\ndtb-$(CONFIG_SOC_AT91SAM9) += gardena_smart_gateway_at91sam.dtb\n' >> \
-            ${S}/arch/arm/boot/dts/Makefile
-    fi
-}
