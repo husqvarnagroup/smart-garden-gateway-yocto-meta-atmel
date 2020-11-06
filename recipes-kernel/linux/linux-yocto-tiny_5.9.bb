@@ -31,7 +31,7 @@ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
 DEPENDS += "openssl-native util-linux-native"
 
 PV = "${LINUX_VERSION}+git${SRCPV}"
-PR_append = ".1"
+PR_append = ".2"
 
 KMETA = "kernel-meta"
 KCONF_BSP_AUDIT_LEVEL = "2"

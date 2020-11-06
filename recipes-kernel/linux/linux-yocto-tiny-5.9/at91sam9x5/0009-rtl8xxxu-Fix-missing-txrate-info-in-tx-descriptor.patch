@@ -1,4 +1,4 @@
-From 560456a325391d0c208389a21b41972d0ef93f69 Mon Sep 17 00:00:00 2001
+From 26138fb825bbdaf84a60b35f4e7c415b3e9bdb91 Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chiu@endlessos.org>
 Date: Sun, 25 Oct 2020 18:51:39 +0800
 Subject: [PATCH] rtl8xxxu: Fix missing txrate info in tx descriptor
@@ -9,6 +9,8 @@ descriptor for data packet.
 So we also keep the initial rate value when associated and reset
 to 0 while dissociate. Thus we have to create a new field init_rate_desc
 in rtl8xxxu_ra_report to achieve the same.
+
+(cherry picked from commit 7f136646ac86bbfabdd7c486c077703a280ef728)
 ---
  .../net/wireless/realtek/rtl8xxxu/rtl8xxxu.h  |  1 +
  .../wireless/realtek/rtl8xxxu/rtl8xxxu_core.c | 23 ++++++++++++++++++-
@@ -27,10 +29,10 @@ index 57a081a465a4..aed4e87494aa 100644
  
  struct rtl8xxxu_priv {
 diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
-index d9ba0ac4f6ec..65a38b896eba 100644
+index ef71ada5b9a5..ca91c56f2b55 100644
 --- a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 +++ b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
-@@ -4758,6 +4758,7 @@ rtl8xxxu_bss_info_changed(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
+@@ -4761,6 +4761,7 @@ rtl8xxxu_bss_info_changed(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
                          bit_rate = cfg80211_calculate_bitrate(&rarpt->txrate);
  			rarpt->bit_rate = bit_rate;
                          rarpt->desc_rate = highest_rate;
@@ -38,7 +40,7 @@ index d9ba0ac4f6ec..65a38b896eba 100644
  
  			priv->vif = vif;
  			priv->rssi_level = RTL8XXXU_RATR_STA_INIT;
-@@ -4778,6 +4779,8 @@ rtl8xxxu_bss_info_changed(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
+@@ -4781,6 +4782,8 @@ rtl8xxxu_bss_info_changed(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
  			val8 |= BEACON_DISABLE_TSF_UPDATE;
  			rtl8xxxu_write8(priv, REG_BEACON_CTRL, val8);
  
@@ -47,7 +49,7 @@ index d9ba0ac4f6ec..65a38b896eba 100644
  			priv->fops->report_connect(priv, 0, false);
  		}
  	}
-@@ -5055,6 +5058,15 @@ rtl8xxxu_fill_txdesc_v1(struct ieee80211_hw *hw, struct ieee80211_hdr *hdr,
+@@ -5058,6 +5061,15 @@ rtl8xxxu_fill_txdesc_v1(struct ieee80211_hw *hw, struct ieee80211_hdr *hdr,
  		tx_desc->txdw5 |= cpu_to_le32(TXDESC32_RETRY_LIMIT_ENABLE);
  	}
  
@@ -63,7 +65,7 @@ index d9ba0ac4f6ec..65a38b896eba 100644
  	if (ieee80211_is_data_qos(hdr->frame_control))
  		tx_desc->txdw4 |= cpu_to_le32(TXDESC32_QOS);
  
-@@ -5130,6 +5142,15 @@ rtl8xxxu_fill_txdesc_v2(struct ieee80211_hw *hw, struct ieee80211_hdr *hdr,
+@@ -5133,6 +5145,15 @@ rtl8xxxu_fill_txdesc_v2(struct ieee80211_hw *hw, struct ieee80211_hdr *hdr,
  		tx_desc40->txdw4 |= cpu_to_le32(TXDESC40_RETRY_LIMIT_ENABLE);
  	}
  
@@ -79,7 +81,7 @@ index d9ba0ac4f6ec..65a38b896eba 100644
  	if (short_preamble)
  		tx_desc40->txdw5 |= cpu_to_le32(TXDESC40_SHORT_PREAMBLE);
  
-@@ -5256,7 +5277,6 @@ static void rtl8xxxu_tx(struct ieee80211_hw *hw,
+@@ -5259,7 +5280,6 @@ static void rtl8xxxu_tx(struct ieee80211_hw *hw,
  	else
  		rts_rate = 0;
  
@@ -87,7 +89,7 @@ index d9ba0ac4f6ec..65a38b896eba 100644
  	priv->fops->fill_txdesc(hw, hdr, tx_info, tx_desc, sgi, short_preamble,
  				ampdu_enable, rts_rate);
  
-@@ -6797,6 +6817,7 @@ static int rtl8xxxu_probe(struct usb_interface *interface,
+@@ -6800,6 +6820,7 @@ static int rtl8xxxu_probe(struct usb_interface *interface,
  	spin_lock_init(&priv->c2hcmd_lock);
  	INIT_WORK(&priv->c2hcmd_work, rtl8xxxu_c2hcmd_callback);
  	skb_queue_head_init(&priv->c2hcmd_queue);
