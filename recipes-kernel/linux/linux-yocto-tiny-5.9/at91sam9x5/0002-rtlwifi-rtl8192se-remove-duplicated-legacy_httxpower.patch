@@ -1,0 +1,57 @@
+From d813b357d0ae62dd8027c3b5d38ca48cbfc7938a Mon Sep 17 00:00:00 2001
+From: Chris Chiu <chiu@endlessos.org>
+Date: Tue, 29 Sep 2020 15:45:32 +0800
+Subject: [PATCH] rtlwifi: rtl8192se: remove duplicated legacy_httxpowerdiff
+
+The legacy_httxpowerdiff in rtl8192se is pretty much the same as
+the legacy_ht_txpowerdiff for other chips. Use the same name to
+keep the consistency.
+
+Signed-off-by: Chris Chiu <chiu@endlessos.org>
+---
+ drivers/net/wireless/realtek/rtlwifi/rtl8192se/hw.c | 2 +-
+ drivers/net/wireless/realtek/rtlwifi/rtl8192se/rf.c | 2 +-
+ drivers/net/wireless/realtek/rtlwifi/wifi.h         | 1 -
+ 3 files changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/net/wireless/realtek/rtlwifi/rtl8192se/hw.c b/drivers/net/wireless/realtek/rtlwifi/rtl8192se/hw.c
+index 81313e0ca834..0cdcddfebca9 100644
+--- a/drivers/net/wireless/realtek/rtlwifi/rtl8192se/hw.c
++++ b/drivers/net/wireless/realtek/rtlwifi/rtl8192se/hw.c
+@@ -1906,7 +1906,7 @@ static void _rtl92se_read_adapter_info(struct ieee80211_hw *hw)
+ 	 * index diff of legacy to HT OFDM rate. */
+ 	tempval = hwinfo[EEPROM_RFIND_POWERDIFF] & 0xff;
+ 	rtlefuse->eeprom_txpowerdiff = tempval;
+-	rtlefuse->legacy_httxpowerdiff =
++	rtlefuse->legacy_ht_txpowerdiff =
+ 		rtlefuse->txpwr_legacyhtdiff[RF90_PATH_A][0];
+ 
+ 	RTPRINT(rtlpriv, FINIT, INIT_TXPOWER,
+diff --git a/drivers/net/wireless/realtek/rtlwifi/rtl8192se/rf.c b/drivers/net/wireless/realtek/rtlwifi/rtl8192se/rf.c
+index a37855f57e76..54576566083c 100644
+--- a/drivers/net/wireless/realtek/rtlwifi/rtl8192se/rf.c
++++ b/drivers/net/wireless/realtek/rtlwifi/rtl8192se/rf.c
+@@ -25,7 +25,7 @@ static void _rtl92s_get_powerbase(struct ieee80211_hw *hw, u8 *p_pwrlevel,
+ 
+ 	/* We only care about the path A for legacy. */
+ 	if (rtlefuse->eeprom_version < 2) {
+-		pwrbase0 = pwrlevel[0] + (rtlefuse->legacy_httxpowerdiff & 0xf);
++		pwrbase0 = pwrlevel[0] + (rtlefuse->legacy_ht_txpowerdiff & 0xf);
+ 	} else {
+ 		legacy_pwrdiff = rtlefuse->txpwr_legacyhtdiff
+ 						[RF90_PATH_A][chnl - 1];
+diff --git a/drivers/net/wireless/realtek/rtlwifi/wifi.h b/drivers/net/wireless/realtek/rtlwifi/wifi.h
+index 13421cf2d201..0a516c3c7cea 100644
+--- a/drivers/net/wireless/realtek/rtlwifi/wifi.h
++++ b/drivers/net/wireless/realtek/rtlwifi/wifi.h
+@@ -1966,7 +1966,6 @@ struct rtl_efuse {
+ 
+ 	u8 txpwr_safetyflag;			/* Band edge enable flag */
+ 	u16 eeprom_txpowerdiff;
+-	u8 legacy_httxpowerdiff;	/* Legacy to HT rate power diff */
+ 	u8 antenna_txpwdiff[3];
+ 
+ 	u8 eeprom_regulatory;
+-- 
+2.27.0
+
