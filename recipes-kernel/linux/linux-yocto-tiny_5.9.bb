@@ -19,6 +19,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
            file://0007-rtl8xxxu-fill-up-txrate-info-for-all-chips.patch \
            file://0008-rtl8xxxu-Fix-the-reported-rx-signal-strength.patch \
            file://0009-rtl8xxxu-Fix-ampdu_action-to-get-block-ack-session-w.patch \
+           file://0010-rtl8xxxu-force-resetting-basic-rate-to-all-except-CC.patch \
            file://defconfig \
           "
 LINUX_VERSION ?= "5.9"
@@ -31,7 +32,7 @@ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
 DEPENDS += "openssl-native util-linux-native"
 
 PV = "${LINUX_VERSION}+git${SRCPV}"
-PR_append = ".3"
+PR_append = ".4"
 
 KMETA = "kernel-meta"
 KCONF_BSP_AUDIT_LEVEL = "2"
