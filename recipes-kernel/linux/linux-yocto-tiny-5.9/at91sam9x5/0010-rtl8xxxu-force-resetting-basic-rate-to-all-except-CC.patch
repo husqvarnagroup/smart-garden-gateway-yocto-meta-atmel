@@ -1,0 +1,37 @@
+From 673895f4cdd542b02c1f1ebaac0155146fb7e4fe Mon Sep 17 00:00:00 2001
+From: Chris Chiu <chiu@endlessos.org>
+Date: Sun, 6 Dec 2020 21:00:51 +0800
+Subject: [PATCH] rtl8xxxu: force resetting basic rate to all except CCK.
+
+There might be something wrong with the set_basic_rate callback
+which cause the driver only ack the packet with specific tx rate
+(MCS2 19.5Mbps). It results in the dramatically slow RX throughtput.
+
+In this dirty hack, we force the response rate with all rates except
+CCK 2, 5.5, and 11Mbps as vendor driver does.
+
+(cherry picked from commit 52e533cbcbe6df39be00e9167b56459e88e9e099)
+---
+ drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
+index 34ed1a500f8f..80b9e2cfcb25 100644
+--- a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
++++ b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
+@@ -4555,11 +4555,10 @@ static void rtl8xxxu_set_basic_rates(struct rtl8xxxu_priv *priv, u32 rate_cfg)
+ 	u32 val32;
+ 	u8 rate_idx = 0;
+ 
+-	rate_cfg &= RESPONSE_RATE_BITMAP_ALL;
+-
+ 	val32 = rtl8xxxu_read32(priv, REG_RESPONSE_RATE_SET);
+ 	val32 &= ~RESPONSE_RATE_BITMAP_ALL;
+ 	val32 |= rate_cfg;
++	val32 = rate_cfg = RESPONSE_RATE_RRSR_CCK_ONLY_1M;
+ 	rtl8xxxu_write32(priv, REG_RESPONSE_RATE_SET, val32);
+ 
+ 	dev_dbg(&priv->udev->dev, "%s: rates %08x\n", __func__,	rate_cfg);
+-- 
+2.29.2
+
