@@ -1,0 +1,26 @@
+From 6f89fbe719fb62be1bcf75b94d21152f49126f31 Mon Sep 17 00:00:00 2001
+From: Chris Chiu <chiu@endlessos.org>
+Date: Wed, 7 Oct 2020 11:08:59 +0800
+Subject: [PATCH 3/7] rtl8xxxu: Enable RX STBC by default
+
+(cherry picked from commit 2286096409b8114b5d1e2d57b114c568f4511d30)
+---
+ drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
+index 84fad5688ea6..4b7732fbbf92 100644
+--- a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
++++ b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
+@@ -6815,6 +6815,8 @@ static int rtl8xxxu_probe(struct usb_interface *interface,
+ 		sband->ht_cap.mcs.rx_mask[1] = 0xff;
+ 		sband->ht_cap.cap |= IEEE80211_HT_CAP_SGI_40;
+ 	}
++	/* only one spatial-stream STBC RX supported */
++	sband->ht_cap.cap |= (1 << IEEE80211_HT_CAP_RX_STBC_SHIFT);
+ 	sband->ht_cap.mcs.tx_params = IEEE80211_HT_MCS_TX_DEFINED;
+ 	/*
+ 	 * Some APs will negotiate HT20_40 in a noisy environment leading
+-- 
+2.29.2
+
