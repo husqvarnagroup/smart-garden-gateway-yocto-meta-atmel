@@ -1,17 +1,18 @@
-From c14705fa0891f01d2534c98b8ee213619bde3445 Mon Sep 17 00:00:00 2001
+From 0a377b05c035c752e5ff35f6c0740fb0fce30b7d Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chiu@endlessos.org>
 Date: Wed, 30 Sep 2020 10:20:15 +0800
-Subject: [PATCH] rtl8xxxu: add handle for mac80211 get_txpower
+Subject: [PATCH 2/7] rtl8xxxu: add handle for mac80211 get_txpower
 
 add .get_txpower handle for mac80211 operations for `iw` and `wext`
 tools to get the underlying tx power (max limit).
 
 Signed-off-by: Chris Chiu <chiu@endlessos.org>
+(cherry picked from commit 2295263455630bd53eb51379e6e745b943d5017d)
 ---
  .../net/wireless/realtek/rtl8xxxu/rtl8xxxu.h  |  3 +
  .../realtek/rtl8xxxu/rtl8xxxu_8192c.c         |  1 +
- .../wireless/realtek/rtl8xxxu/rtl8xxxu_core.c | 68 ++++++++++++++++++-
- 3 files changed, 70 insertions(+), 2 deletions(-)
+ .../wireless/realtek/rtl8xxxu/rtl8xxxu_core.c | 65 ++++++++++++++++++-
+ 3 files changed, 68 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.h b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.h
 index 9a43347b38b4..57a081a465a4 100644
@@ -54,7 +55,7 @@ index bb6df8cac82f..54f41af1015e 100644
  	.report_connect = rtl8xxxu_gen1_report_connect,
  	.fill_txdesc = rtl8xxxu_fill_txdesc_v1,
 diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
-index 5916d0cc65b5..b15498c08254 100644
+index d325f653a297..7214f7ce65cf 100644
 --- a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 +++ b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 @@ -1414,6 +1414,52 @@ rtl8xxxu_gen1_dbm_to_txpwridx(struct rtl8xxxu_priv *priv, u16 mode, int dbm)
@@ -110,7 +111,7 @@ index 5916d0cc65b5..b15498c08254 100644
  void
  rtl8xxxu_gen1_set_tx_power(struct rtl8xxxu_priv *priv, int channel, bool ht40)
  {
-@@ -4540,13 +4586,26 @@ rtl8xxxu_wireless_mode(struct ieee80211_hw *hw, struct ieee80211_sta *sta)
+@@ -4540,6 +4586,19 @@ rtl8xxxu_wireless_mode(struct ieee80211_hw *hw, struct ieee80211_sta *sta)
  	return network_type;
  }
  
@@ -130,14 +131,6 @@ index 5916d0cc65b5..b15498c08254 100644
  static void rtl8xxxu_update_txpower(struct rtl8xxxu_priv *priv, int power)
  {
  	bool ht40 = false;
- 	struct ieee80211_hw *hw = priv->hw;
- 	int channel = hw->conf.chandef.chan->hw_value;
- 	u8 cck_txpwridx, ofdm_txpwridx;
--	int i;
-+	int i, group;
- 
- 	if (!priv->fops->dbm_to_txpwridx)
- 		return;
 @@ -4570,7 +4629,7 @@ static void rtl8xxxu_update_txpower(struct rtl8xxxu_priv *priv, int power)
  						    power);
  
@@ -147,18 +140,17 @@ index 5916d0cc65b5..b15498c08254 100644
  	else
  		ofdm_txpwridx = 0;
  
-@@ -4583,6 +4642,10 @@ static void rtl8xxxu_update_txpower(struct rtl8xxxu_priv *priv, int power)
+@@ -4586,6 +4645,9 @@ static void rtl8xxxu_update_txpower(struct rtl8xxxu_priv *priv, int power)
  		priv->ht40_1s_tx_power_index_B[i] = ofdm_txpwridx;
  	}
  
-+	group = rtl8xxxu_gen1_channel_to_group(channel);
 +	priv->cur_cck_txpwridx = priv->cck_tx_power_index_A[group];
 +	priv->cur_ofdm24g_txpwridx = priv->ht40_1s_tx_power_index_A[group];
 +
  	priv->fops->set_tx_power(priv, channel, ht40);
  }
  
-@@ -6532,6 +6595,7 @@ static const struct ieee80211_ops rtl8xxxu_ops = {
+@@ -6543,6 +6605,7 @@ static const struct ieee80211_ops rtl8xxxu_ops = {
  	.set_key = rtl8xxxu_set_key,
  	.ampdu_action = rtl8xxxu_ampdu_action,
  	.sta_statistics = rtl8xxxu_sta_statistics,
@@ -167,5 +159,5 @@ index 5916d0cc65b5..b15498c08254 100644
  
  static int rtl8xxxu_parse_usb(struct rtl8xxxu_priv *priv,
 -- 
-2.27.0
+2.29.2
 

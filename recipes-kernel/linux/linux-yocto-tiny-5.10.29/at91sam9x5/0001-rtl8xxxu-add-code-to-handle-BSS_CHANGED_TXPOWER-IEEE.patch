@@ -1,19 +1,20 @@
-From 38c9d32bc1853f1064e20808dc3c3cf05a71f31e Mon Sep 17 00:00:00 2001
+From 91815d2b26bbaa7d05dfffcf14bf5f2ada1f8ad8 Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chiu@endlessos.org>
 Date: Tue, 29 Sep 2020 15:51:25 +0800
-Subject: [PATCH] rtl8xxxu: add code to handle
+Subject: [PATCH 1/7] rtl8xxxu: add code to handle
  BSS_CHANGED_TXPOWER/IEEE80211_CONF_CHANGE_POWER
 
 The 'iw set txpower' is not handled by the driver. Use the existing
 set_tx_power fuction to apply the tx power change
 
 Signed-off-by: Chris Chiu <chiu@endlessos.org>
+(cherry picked from commit 48f8fbccb7dff2d3c5f72a4267313d3c4cfc7df9)
 ---
  .../net/wireless/realtek/rtl8xxxu/rtl8xxxu.h  |  3 +
  .../realtek/rtl8xxxu/rtl8xxxu_8192c.c         |  1 +
  .../realtek/rtl8xxxu/rtl8xxxu_8723a.c         |  1 +
- .../wireless/realtek/rtl8xxxu/rtl8xxxu_core.c | 88 +++++++++++++++++++
- 4 files changed, 93 insertions(+)
+ .../wireless/realtek/rtl8xxxu/rtl8xxxu_core.c | 91 +++++++++++++++++++
+ 4 files changed, 96 insertions(+)
 
 diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.h b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.h
 index d6d1be4169e5..9a43347b38b4 100644
@@ -61,7 +62,7 @@ index 4f93f88716a9..a5d56f61c4eb 100644
  	.update_rate_mask = rtl8xxxu_update_rate_mask,
  	.report_connect = rtl8xxxu_gen1_report_connect,
 diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
-index 19efae462a24..5916d0cc65b5 100644
+index 5cd7ef3625c5..d325f653a297 100644
 --- a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 +++ b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 @@ -1382,6 +1382,38 @@ void rtl8xxxu_gen2_config_channel(struct ieee80211_hw *hw)
@@ -103,7 +104,7 @@ index 19efae462a24..5916d0cc65b5 100644
  void
  rtl8xxxu_gen1_set_tx_power(struct rtl8xxxu_priv *priv, int channel, bool ht40)
  {
-@@ -4508,6 +4540,52 @@ rtl8xxxu_wireless_mode(struct ieee80211_hw *hw, struct ieee80211_sta *sta)
+@@ -4508,6 +4540,55 @@ rtl8xxxu_wireless_mode(struct ieee80211_hw *hw, struct ieee80211_sta *sta)
  	return network_type;
  }
  
@@ -113,7 +114,7 @@ index 19efae462a24..5916d0cc65b5 100644
 +	struct ieee80211_hw *hw = priv->hw;
 +	int channel = hw->conf.chandef.chan->hw_value;
 +	u8 cck_txpwridx, ofdm_txpwridx;
-+	int i;
++	int i, group;
 +
 +	if (!priv->fops->dbm_to_txpwridx)
 +		return;
@@ -141,11 +142,14 @@ index 19efae462a24..5916d0cc65b5 100644
 +	else
 +		ofdm_txpwridx = 0;
 +
-+	// fill up the cck_tx_power_index/ ofdm_tx_power_index
-+	for (i = 0; i < 3; i++) {	// 3 groups
-+		priv->cck_tx_power_index_A[i] = cck_txpwridx;
-+		priv->cck_tx_power_index_B[i] = cck_txpwridx;
++	group = rtl8xxxu_gen1_channel_to_group(channel);
++	
++	if (cck_txpwridx <= priv->cck_tx_power_index_A[group]) {
++		priv->cck_tx_power_index_A[group] = cck_txpwridx;
++		priv->cck_tx_power_index_B[group] = cck_txpwridx;
++	}
 +
++	if (ofdm_txpwridx <= priv->ht40_1s_tx_power_index_A[group]) {
 +		priv->ht40_1s_tx_power_index_A[i] = ofdm_txpwridx;
 +		priv->ht40_1s_tx_power_index_B[i] = ofdm_txpwridx;
 +	}
@@ -156,7 +160,7 @@ index 19efae462a24..5916d0cc65b5 100644
  static void
  rtl8xxxu_bss_info_changed(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
  			  struct ieee80211_bss_conf *bss_conf, u32 changed)
-@@ -4518,6 +4596,7 @@ rtl8xxxu_bss_info_changed(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
+@@ -4518,6 +4599,7 @@ rtl8xxxu_bss_info_changed(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
  	u32 val32;
  	u8 val8;
  
@@ -164,7 +168,7 @@ index 19efae462a24..5916d0cc65b5 100644
  	if (changed & BSS_CHANGED_ASSOC) {
  		dev_dbg(dev, "Changed ASSOC: %i!\n", bss_conf->assoc);
  
-@@ -4604,6 +4683,12 @@ rtl8xxxu_bss_info_changed(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
+@@ -4604,6 +4686,12 @@ rtl8xxxu_bss_info_changed(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
  		dev_dbg(dev, "Changed BASIC_RATES!\n");
  		rtl8xxxu_set_basic_rates(priv, bss_conf->basic_rates);
  	}
@@ -177,7 +181,7 @@ index 19efae462a24..5916d0cc65b5 100644
  error:
  	return;
  }
-@@ -5891,6 +5976,9 @@ static int rtl8xxxu_config(struct ieee80211_hw *hw, u32 changed)
+@@ -5891,6 +5979,9 @@ static int rtl8xxxu_config(struct ieee80211_hw *hw, u32 changed)
  		priv->fops->config_channel(hw);
  	}
  
@@ -188,5 +192,5 @@ index 19efae462a24..5916d0cc65b5 100644
  	return ret;
  }
 -- 
-2.27.0
+2.29.2
 
