@@ -1,7 +1,7 @@
-From 57478d6707151e37f730a21125471a53599d43f3 Mon Sep 17 00:00:00 2001
+From 0cc575cf0f6f21e7a0496e5fb70ac191ad4ac733 Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chiu@endlessos.org>
 Date: Tue, 20 Oct 2020 13:27:37 +0800
-Subject: [PATCH] rtl8xxxu: Fix the reported rx signal strength
+Subject: [PATCH 6/7] rtl8xxxu: Fix the reported rx signal strength
 
 In rtl8xxxx_rx_query_desc for each chip in rtlwifi family, the
 rx_status->signal is always the status->recvsignalpower + 10.
@@ -11,16 +11,16 @@ always ~10dBm higher than reported from driver.
 
 Add this 10dBm to avoid confusion.
 
-(cherry picked from commit 67aa8dbbd9fcbbc7c76dbc541944dbebaeadbfcb)
+(cherry picked from commit e1a4f83da577474dfa23e85483a83eb7fb707edc)
 ---
  drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c | 5 +++++
  1 file changed, 5 insertions(+)
 
 diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
-index 98f470b6c368..ef71ada5b9a5 100644
+index 7c7f882618b5..4ed8494b7748 100644
 --- a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 +++ b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
-@@ -5312,6 +5312,11 @@ static void rtl8xxxu_rx_parse_phystats(struct rtl8xxxu_priv *priv,
+@@ -5314,6 +5314,11 @@ static void rtl8xxxu_rx_parse_phystats(struct rtl8xxxu_priv *priv,
  		rx_status->signal =
  			(phy_stats->cck_sig_qual_ofdm_pwdb_all >> 1) - 110;
  	}
@@ -33,5 +33,5 @@ index 98f470b6c368..ef71ada5b9a5 100644
  
  static void rtl8xxxu_free_rx_resources(struct rtl8xxxu_priv *priv)
 -- 
-2.27.0
+2.29.2
 

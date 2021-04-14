@@ -1,15 +1,15 @@
-From 7e9ce2ba36d9b770f119601d231a25d3821a4a3a Mon Sep 17 00:00:00 2001
+From 863c04102a7b0e5f8c0bad6f6d7d70b4dd5acd39 Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chiu@endlessos.org>
 Date: Wed, 7 Oct 2020 15:20:56 +0800
 Subject: [PATCH 4/7] rtl8xxxu: feed antenna information for mac80211
 
-(cherry picked from commit 53a1a50372c9ec34c0966fa446b05ae609bf9b58)
+(cherry picked from commit 557e87b5db655394a16c9b54a07a2fc11f1ea618)
 ---
  .../net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c | 15 +++++++++++++++
  1 file changed, 15 insertions(+)
 
 diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
-index 4b7732fbbf92..4b5eb41341a6 100644
+index 97eb969907b0..cb198928beb5 100644
 --- a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 +++ b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 @@ -1685,6 +1685,7 @@ static void rtl8xxxu_print_chipinfo(struct rtl8xxxu_priv *priv)
@@ -47,7 +47,7 @@ index 4b7732fbbf92..4b5eb41341a6 100644
  static void rtl8xxxu_sw_scan_start(struct ieee80211_hw *hw,
  				   struct ieee80211_vif *vif, const u8 *mac)
  {
-@@ -6603,6 +6617,7 @@ static const struct ieee80211_ops rtl8xxxu_ops = {
+@@ -6605,6 +6619,7 @@ static const struct ieee80211_ops rtl8xxxu_ops = {
  	.set_key = rtl8xxxu_set_key,
  	.ampdu_action = rtl8xxxu_ampdu_action,
  	.sta_statistics = rtl8xxxu_sta_statistics,
