@@ -1,18 +1,20 @@
-From 863c04102a7b0e5f8c0bad6f6d7d70b4dd5acd39 Mon Sep 17 00:00:00 2001
+From 9bbb2cae020678b793f17832c0dbaafe94d43115 Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chiu@endlessos.org>
 Date: Wed, 7 Oct 2020 15:20:56 +0800
 Subject: [PATCH 4/7] rtl8xxxu: feed antenna information for mac80211
 
 (cherry picked from commit 557e87b5db655394a16c9b54a07a2fc11f1ea618)
+Signed-off-by: Reto Schneider <reto.schneider@husqvarnagroup.com>
 ---
+
  .../net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c | 15 +++++++++++++++
  1 file changed, 15 insertions(+)
 
 diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
-index 97eb969907b0..cb198928beb5 100644
+index d5c53d6dec33..0a04ce00b1fe 100644
 --- a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 +++ b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
-@@ -1685,6 +1685,7 @@ static void rtl8xxxu_print_chipinfo(struct rtl8xxxu_priv *priv)
+@@ -1688,6 +1688,7 @@ static void rtl8xxxu_print_chipinfo(struct rtl8xxxu_priv *priv)
  static int rtl8xxxu_identify_chip(struct rtl8xxxu_priv *priv)
  {
  	struct device *dev = &priv->udev->dev;
@@ -20,7 +22,7 @@ index 97eb969907b0..cb198928beb5 100644
  	u32 val32, bonding;
  	u16 val16;
  
-@@ -1761,6 +1762,8 @@ static int rtl8xxxu_identify_chip(struct rtl8xxxu_priv *priv)
+@@ -1764,6 +1765,8 @@ static int rtl8xxxu_identify_chip(struct rtl8xxxu_priv *priv)
  		priv->usb_interrupts = 1;
  		priv->has_wifi = 1;
  	}
@@ -29,7 +31,7 @@ index 97eb969907b0..cb198928beb5 100644
  
  	switch (priv->rtl_chip) {
  	case RTL8188E:
-@@ -4360,6 +4363,17 @@ static void rtl8xxxu_cam_write(struct rtl8xxxu_priv *priv,
+@@ -4363,6 +4366,17 @@ static void rtl8xxxu_cam_write(struct rtl8xxxu_priv *priv,
  	rtl8xxxu_debug = tmp_debug;
  }
  
@@ -47,7 +49,7 @@ index 97eb969907b0..cb198928beb5 100644
  static void rtl8xxxu_sw_scan_start(struct ieee80211_hw *hw,
  				   struct ieee80211_vif *vif, const u8 *mac)
  {
-@@ -6605,6 +6619,7 @@ static const struct ieee80211_ops rtl8xxxu_ops = {
+@@ -6609,6 +6623,7 @@ static const struct ieee80211_ops rtl8xxxu_ops = {
  	.set_key = rtl8xxxu_set_key,
  	.ampdu_action = rtl8xxxu_ampdu_action,
  	.sta_statistics = rtl8xxxu_sta_statistics,
