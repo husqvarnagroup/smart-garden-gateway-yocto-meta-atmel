@@ -1,7 +1,7 @@
-From 14610cc553dbc3e70d619f5f0779a526afb3b556 Mon Sep 17 00:00:00 2001
+From 7acff3efc32cf3d39b940bf004e2e695ca683406 Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chiu@endlessos.org>
 Date: Tue, 20 Oct 2020 13:27:37 +0800
-Subject: [PATCH 6/7] rtl8xxxu: Fix the reported rx signal strength
+Subject: [PATCH 6/9] rtl8xxxu: Fix the reported rx signal strength
 
 In rtl8xxxx_rx_query_desc for each chip in rtlwifi family, the
 rx_status->signal is always the status->recvsignalpower + 10.
@@ -12,9 +12,7 @@ always ~10dBm higher than reported from driver.
 Add this 10dBm to avoid confusion.
 
 (cherry picked from commit e1a4f83da577474dfa23e85483a83eb7fb707edc)
-Signed-off-by: Reto Schneider <reto.schneider@husqvarnagroup.com>
 ---
-
  drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c | 5 +++++
  1 file changed, 5 insertions(+)
 
@@ -35,5 +33,5 @@ index 0c997c360028..088e007e8bd0 100644
  
  static void rtl8xxxu_free_rx_resources(struct rtl8xxxu_priv *priv)
 -- 
-2.29.2
+2.30.2
 

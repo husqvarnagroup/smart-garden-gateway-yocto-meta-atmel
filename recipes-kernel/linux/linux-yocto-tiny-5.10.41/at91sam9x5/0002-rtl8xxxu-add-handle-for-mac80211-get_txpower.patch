@@ -1,16 +1,14 @@
-From 4a45190631f33bcc83c9971a820b9b4031bed077 Mon Sep 17 00:00:00 2001
+From 492b1f5c3c5afa6a439b0dec814565c68018f9db Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chiu@endlessos.org>
 Date: Wed, 30 Sep 2020 10:20:15 +0800
-Subject: [PATCH 2/7] rtl8xxxu: add handle for mac80211 get_txpower
+Subject: [PATCH 2/9] rtl8xxxu: add handle for mac80211 get_txpower
 
 add .get_txpower handle for mac80211 operations for `iw` and `wext`
 tools to get the underlying tx power (max limit).
 
 Signed-off-by: Chris Chiu <chiu@endlessos.org>
 (cherry picked from commit 2295263455630bd53eb51379e6e745b943d5017d)
-Signed-off-by: Reto Schneider <reto.schneider@husqvarnagroup.com>
 ---
-
  .../net/wireless/realtek/rtl8xxxu/rtl8xxxu.h  |  3 +
  .../realtek/rtl8xxxu/rtl8xxxu_8192c.c         |  1 +
  .../wireless/realtek/rtl8xxxu/rtl8xxxu_core.c | 72 ++++++++++++++++++-
@@ -170,5 +168,5 @@ index e8459cb6035f..585018383712 100644
  
  static int rtl8xxxu_parse_usb(struct rtl8xxxu_priv *priv,
 -- 
-2.29.2
+2.30.2
 

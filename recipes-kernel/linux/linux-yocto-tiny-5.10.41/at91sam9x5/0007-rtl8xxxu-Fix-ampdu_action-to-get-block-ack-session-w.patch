@@ -1,7 +1,7 @@
-From e03cc6109b0b8290145380907a1a17b208ea129e Mon Sep 17 00:00:00 2001
+From ce106d5f48fdb1eff78f5041090802f79c623126 Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chiu@endlessos.org>
 Date: Mon, 30 Nov 2020 10:31:35 +0800
-Subject: [PATCH 7/7] rtl8xxxu: Fix ampdu_action to get block ack session work
+Subject: [PATCH 7/9] rtl8xxxu: Fix ampdu_action to get block ack session work
 
 The HAS_RATE_CONTROL hw capability needs to be unset for the mac80211
 rate control to work. The mac80211 rate control will be in charge
@@ -10,10 +10,7 @@ driver should be modified accordingly.
 
 Signed-off-by: Chris Chiu <chiu@endlessos.org>
 (cherry picked from commit c470f7aed67f223d941e3da6e9d2a464dd0083ee)
-
-Signed-off-by: Reto Schneider <reto.schneider@husqvarnagroup.com>
 ---
-
  .../net/wireless/realtek/rtl8xxxu/rtl8xxxu.h  |  1 +
  .../wireless/realtek/rtl8xxxu/rtl8xxxu_core.c | 35 ++++++++++++-------
  2 files changed, 24 insertions(+), 12 deletions(-)
@@ -127,5 +124,5 @@ index 088e007e8bd0..7ce27d1bb27a 100644
  
  	wiphy_ext_feature_set(hw->wiphy, NL80211_EXT_FEATURE_CQM_RSSI_LIST);
 -- 
-2.29.2
+2.30.2
 
