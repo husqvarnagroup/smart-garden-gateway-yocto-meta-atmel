@@ -1,7 +1,7 @@
-From 7a52c977c39969793685fdc7b1f6275b769fb931 Mon Sep 17 00:00:00 2001
+From b045ea8bf41724745a303eb446ef73db2eab664b Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chiu@endlessos.org>
 Date: Tue, 29 Sep 2020 15:51:25 +0800
-Subject: [PATCH 1/7] rtl8xxxu: add code to handle
+Subject: [PATCH 1/9] rtl8xxxu: add code to handle
  BSS_CHANGED_TXPOWER/IEEE80211_CONF_CHANGE_POWER
 
 The 'iw set txpower' is not handled by the driver. Use the existing
@@ -9,9 +9,7 @@ set_tx_power function to apply the tx power change
 
 Signed-off-by: Chris Chiu <chiu@endlessos.org>
 (cherry picked from commit 48f8fbccb7dff2d3c5f72a4267313d3c4cfc7df9)
-Signed-off-by: Reto Schneider <reto.schneider@husqvarnagroup.com>
 ---
-
  .../net/wireless/realtek/rtl8xxxu/rtl8xxxu.h  |  3 +
  .../realtek/rtl8xxxu/rtl8xxxu_8192c.c         |  1 +
  .../realtek/rtl8xxxu/rtl8xxxu_8723a.c         |  1 +
@@ -186,5 +184,5 @@ index 5cd7ef3625c5..e8459cb6035f 100644
  	return ret;
  }
 -- 
-2.29.2
+2.30.2
 

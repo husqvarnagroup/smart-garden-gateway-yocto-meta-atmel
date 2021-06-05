@@ -1,7 +1,7 @@
-From e25036849aab4b71091f73d3c410c4a49f766049 Mon Sep 17 00:00:00 2001
+From 82ac4d69494dd00697be2e78b64486975b17b466 Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chiu@endlessos.org>
 Date: Wed, 7 Oct 2020 16:40:48 +0800
-Subject: [PATCH 5/7] rtl8xxxu: fill up txrate info for all chips
+Subject: [PATCH 5/9] rtl8xxxu: fill up txrate info for all chips
 
 RTL8188CUS/RTL8192CU (gen1) doesn't support rate adaptive report
 hence no real txrate info can be retrieved. The vendor driver reports
@@ -9,9 +9,7 @@ the highest rate in HT capabilities from AP side.
 This commit follows the same way to avoid empty info for txrate.
 
 (cherry picked from commit 831ecaf5e80b1cba26d3606b064020a22268f694)
-Signed-off-by: Reto Schneider <reto.schneider@husqvarnagroup.com>
 ---
-
  .../wireless/realtek/rtl8xxxu/rtl8xxxu_core.c | 86 ++++++++++++-------
  1 file changed, 57 insertions(+), 29 deletions(-)
 
@@ -144,5 +142,5 @@ index 0a04ce00b1fe..0c997c360028 100644
  {
  	struct rtl8xxxu_priv *priv;
 -- 
-2.29.2
+2.30.2
 
