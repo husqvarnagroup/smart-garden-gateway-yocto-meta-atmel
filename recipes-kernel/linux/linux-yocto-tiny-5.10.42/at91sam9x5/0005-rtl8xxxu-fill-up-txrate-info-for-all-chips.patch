@@ -1,7 +1,7 @@
-From 82ac4d69494dd00697be2e78b64486975b17b466 Mon Sep 17 00:00:00 2001
+From 0aeab11c34a4ad2024c0adc0e26a329fde2cd289 Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chiu@endlessos.org>
 Date: Wed, 7 Oct 2020 16:40:48 +0800
-Subject: [PATCH 5/9] rtl8xxxu: fill up txrate info for all chips
+Subject: [PATCH] rtl8xxxu: fill up txrate info for all chips
 
 RTL8188CUS/RTL8192CU (gen1) doesn't support rate adaptive report
 hence no real txrate info can be retrieved. The vendor driver reports
