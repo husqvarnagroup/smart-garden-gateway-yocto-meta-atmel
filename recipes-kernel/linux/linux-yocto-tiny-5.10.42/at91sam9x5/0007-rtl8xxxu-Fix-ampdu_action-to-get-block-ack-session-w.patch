@@ -1,7 +1,7 @@
-From ce106d5f48fdb1eff78f5041090802f79c623126 Mon Sep 17 00:00:00 2001
+From 7d86715be663d1e57f3f40ba636e2b29e32d1c45 Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chiu@endlessos.org>
 Date: Mon, 30 Nov 2020 10:31:35 +0800
-Subject: [PATCH 7/9] rtl8xxxu: Fix ampdu_action to get block ack session work
+Subject: [PATCH] rtl8xxxu: Fix ampdu_action to get block ack session work
 
 The HAS_RATE_CONTROL hw capability needs to be unset for the mac80211
 rate control to work. The mac80211 rate control will be in charge
