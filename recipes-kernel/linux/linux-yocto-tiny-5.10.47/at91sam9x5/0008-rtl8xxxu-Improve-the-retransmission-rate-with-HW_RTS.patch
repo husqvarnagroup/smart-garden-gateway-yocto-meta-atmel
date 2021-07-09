@@ -1,0 +1,37 @@
+From e316eec20d3f248a6be6b0066aaa8c41a5e84763 Mon Sep 17 00:00:00 2001
+From: Chris Chiu <chiu@endlessos.org>
+Date: Tue, 25 May 2021 12:48:20 +0800
+Subject: [PATCH] rtl8xxxu: Improve the retransmission rate with HW_RTS enable
+
+From the RTL8188CUS vendor driver, the HW_RTS is enabled when
+ampdu enabled. The retransmission rate is about ~20% even in a
+very clean environment with rtl8xxxu driver compared to ~8%
+with the vendor driver.
+
+This commit tries to enable the HW_RTS and succeeds to improve
+the retransmission rate from ~20% to ~12%. Need to apply the same
+thing in rtl8192cu driver to make sure whether it really improves
+or not.
+
+Signed-Off-By: Chris Chiu <chiu@endlessos.org>
+(cherry picked from commit e81e68537234e7026d6fbb22f8fcd357f29a77b7)
+---
+ drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
+index 7ce27d1bb27a..dc4a7ed81726 100644
+--- a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
++++ b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
+@@ -5082,7 +5082,7 @@ rtl8xxxu_fill_txdesc_v1(struct ieee80211_hw *hw, struct ieee80211_hdr *hdr,
+ 	 * rts_rate is zero if RTS/CTS or CTS to SELF are not enabled
+ 	 */
+ 	tx_desc->txdw4 |= cpu_to_le32(rts_rate << TXDESC32_RTS_RATE_SHIFT);
+-	if (rate_flags & IEEE80211_TX_RC_USE_RTS_CTS) {
++	if (ampdu_enable || (rate_flags & IEEE80211_TX_RC_USE_RTS_CTS)) {
+ 		tx_desc->txdw4 |= cpu_to_le32(TXDESC32_RTS_CTS_ENABLE);
+ 		tx_desc->txdw4 |= cpu_to_le32(TXDESC32_HW_RTS_ENABLE);
+ 	} else if (rate_flags & IEEE80211_TX_RC_USE_CTS_PROTECT) {
+-- 
+2.30.2
+

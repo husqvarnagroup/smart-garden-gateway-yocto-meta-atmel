@@ -29,6 +29,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
            file://0005-rtl8xxxu-fill-up-txrate-info-for-all-chips.patch \
            file://0006-rtl8xxxu-Fix-the-reported-rx-signal-strength.patch \
            file://0007-rtl8xxxu-Fix-ampdu_action-to-get-block-ack-session-w.patch \
+           file://0010-rtl8xxxu-disable-CONFIG_USB_INTERRUPT_IN_PIPE.patch \
            file://defconfig \
           "
 FILESEXTRAPATHS_prepend := "${THISDIR}:${THISDIR}/${BPN}-${LINUX_VERSION}:"
