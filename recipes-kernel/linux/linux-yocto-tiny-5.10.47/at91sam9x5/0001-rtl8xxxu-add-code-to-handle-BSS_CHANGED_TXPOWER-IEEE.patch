@@ -1,4 +1,4 @@
-From 211e64aeec12dc495e5334269314af23dbccbc95 Mon Sep 17 00:00:00 2001
+From 19d3ddd382f4958e0c0eaabfc55d60a201443c65 Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chiu@endlessos.org>
 Date: Tue, 29 Sep 2020 15:51:25 +0800
 Subject: [PATCH] rtl8xxxu: add code to handle

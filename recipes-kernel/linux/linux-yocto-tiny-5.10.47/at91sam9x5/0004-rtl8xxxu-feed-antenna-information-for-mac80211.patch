@@ -1,4 +1,4 @@
-From 34e3bb3edb85ada2561ccf25de7b8342f073a498 Mon Sep 17 00:00:00 2001
+From 121ce516b6fba1b5bef2b3ddc3100e8f7d775942 Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chiu@endlessos.org>
 Date: Wed, 7 Oct 2020 15:20:56 +0800
 Subject: [PATCH] rtl8xxxu: feed antenna information for mac80211

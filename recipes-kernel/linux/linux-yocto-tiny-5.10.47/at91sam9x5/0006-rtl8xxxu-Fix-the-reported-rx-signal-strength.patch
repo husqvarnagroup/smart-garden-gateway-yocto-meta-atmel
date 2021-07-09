@@ -1,4 +1,4 @@
-From b9de41287abcddec182d9ab343e862673934a57b Mon Sep 17 00:00:00 2001
+From 692d60b45ccf18e6748828d03e95939376e086b3 Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chiu@endlessos.org>
 Date: Tue, 20 Oct 2020 13:27:37 +0800
 Subject: [PATCH] rtl8xxxu: Fix the reported rx signal strength
