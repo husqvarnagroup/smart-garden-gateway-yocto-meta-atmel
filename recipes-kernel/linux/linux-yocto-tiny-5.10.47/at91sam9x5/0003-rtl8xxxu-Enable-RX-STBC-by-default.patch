@@ -1,4 +1,4 @@
-From 1753de73061c706157c10d77a18f3cb70798da20 Mon Sep 17 00:00:00 2001
+From 2ac636761c8ed97063a6255a1057e04e2ceb20e5 Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chiu@endlessos.org>
 Date: Wed, 7 Oct 2020 11:08:59 +0800
 Subject: [PATCH] rtl8xxxu: Enable RX STBC by default

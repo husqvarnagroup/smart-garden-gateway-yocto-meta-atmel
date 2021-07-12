@@ -1,4 +1,4 @@
-From b01bcbf0f2792c586de625f709d62c01ffb3b546 Mon Sep 17 00:00:00 2001
+From 729b8e64b082fd9d0c205ab51e8075378f23d837 Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chiu@endlessos.org>
 Date: Wed, 30 Sep 2020 10:20:15 +0800
 Subject: [PATCH] rtl8xxxu: add handle for mac80211 get_txpower

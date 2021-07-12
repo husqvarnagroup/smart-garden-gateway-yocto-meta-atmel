@@ -5,7 +5,7 @@ KCONFIG_MODE = "--allnoconfig"
 
 require recipes-kernel/linux/linux-yocto.inc
 
-LINUX_VERSION ?= "5.10.43"
+LINUX_VERSION ?= "5.10.47"
 LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
 
 DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
@@ -14,8 +14,8 @@ DEPENDS += "openssl-native util-linux-native"
 KMETA = "kernel-meta"
 KCONF_BSP_AUDIT_LEVEL = "2"
 
-SRCREV_machine ?= "a68fc0180ae168b5af017e9071e183e1a51e4569"
-SRCREV_meta ?= "7fab6536c164fd743f17c52bc56a65867e30903a"
+SRCREV_machine ?= "af141841735a3a4bef451a37b9c20ea4fe2b70ab"
+SRCREV_meta ?= "20b185f6b5afbad309747a7901786e0231dc8195"
 
 PV = "${LINUX_VERSION}+git${SRCPV}"
 PR_append = ".0"
@@ -29,6 +29,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
            file://0005-rtl8xxxu-fill-up-txrate-info-for-all-chips.patch \
            file://0006-rtl8xxxu-Fix-the-reported-rx-signal-strength.patch \
            file://0007-rtl8xxxu-Fix-ampdu_action-to-get-block-ack-session-w.patch \
+           file://0010-rtl8xxxu-disable-CONFIG_USB_INTERRUPT_IN_PIPE.patch \
            file://defconfig \
           "
 FILESEXTRAPATHS_prepend := "${THISDIR}:${THISDIR}/${BPN}-${LINUX_VERSION}:"
