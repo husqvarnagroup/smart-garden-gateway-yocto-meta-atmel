@@ -12,10 +12,12 @@ SRC_URI = "\
     git://github.com/husqvarnagroup/rtl8188cus_vendor;protocol=https;branch=main \
 "
 
-SRCREV = "ca44d56bc88e81b16d9df3a0ec7106342db3c45b"
-PV = "2021-04-13+git${SRCPV}"
+SRCREV = "733c6aba8f8c814b2f5f36280682f63a0b8f9cc5"
+PV = "2021-07-23+git${SRCPV}"
 PR = "r0"
 
 S = "${WORKDIR}/git"
+
+EXTRA_OEMAKE += "CONFIG_PLATFORM_ARM_AT91SAM9G25=y"
 
 DEPENDS += "bc-native"
