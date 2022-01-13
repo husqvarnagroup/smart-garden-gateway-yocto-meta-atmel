@@ -1,7 +1,7 @@
-From 121ce516b6fba1b5bef2b3ddc3100e8f7d775942 Mon Sep 17 00:00:00 2001
+From e3c777b426cdde22feb5f17592a6065d72367fb5 Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chiu@endlessos.org>
 Date: Wed, 7 Oct 2020 15:20:56 +0800
-Subject: [PATCH] rtl8xxxu: feed antenna information for mac80211
+Subject: [PATCH] [toup] rtl8xxxu: Feed antenna information for mac80211
 
 (cherry picked from commit 557e87b5db655394a16c9b54a07a2fc11f1ea618)
 ---
@@ -9,7 +9,7 @@ Subject: [PATCH] rtl8xxxu: feed antenna information for mac80211
  1 file changed, 15 insertions(+)
 
 diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
-index d5c53d6dec33..0a04ce00b1fe 100644
+index 266b83f427d9..01227abda44c 100644
 --- a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 +++ b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 @@ -1688,6 +1688,7 @@ static void rtl8xxxu_print_chipinfo(struct rtl8xxxu_priv *priv)
@@ -21,7 +21,7 @@ index d5c53d6dec33..0a04ce00b1fe 100644
  	u16 val16;
  
 @@ -1764,6 +1765,8 @@ static int rtl8xxxu_identify_chip(struct rtl8xxxu_priv *priv)
- 		priv->usb_interrupts = 1;
+ 		priv->usb_interrupts = 0;
  		priv->has_wifi = 1;
  	}
 +	hw->wiphy->available_antennas_tx = BIT(priv->tx_paths) - 1;
@@ -47,7 +47,7 @@ index d5c53d6dec33..0a04ce00b1fe 100644
  static void rtl8xxxu_sw_scan_start(struct ieee80211_hw *hw,
  				   struct ieee80211_vif *vif, const u8 *mac)
  {
-@@ -6609,6 +6623,7 @@ static const struct ieee80211_ops rtl8xxxu_ops = {
+@@ -6755,6 +6769,7 @@ static const struct ieee80211_ops rtl8xxxu_ops = {
  	.set_key = rtl8xxxu_set_key,
  	.ampdu_action = rtl8xxxu_ampdu_action,
  	.sta_statistics = rtl8xxxu_sta_statistics,

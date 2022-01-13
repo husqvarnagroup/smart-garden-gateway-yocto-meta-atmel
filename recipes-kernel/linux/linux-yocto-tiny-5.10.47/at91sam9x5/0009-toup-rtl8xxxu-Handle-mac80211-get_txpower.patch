@@ -1,9 +1,9 @@
-From 729b8e64b082fd9d0c205ab51e8075378f23d837 Mon Sep 17 00:00:00 2001
+From 59a361731e47c38c39a10413b9159791f3a1c1c3 Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chiu@endlessos.org>
 Date: Wed, 30 Sep 2020 10:20:15 +0800
-Subject: [PATCH] rtl8xxxu: add handle for mac80211 get_txpower
+Subject: [PATCH] [toup] rtl8xxxu: Handle mac80211 get_txpower
 
-add .get_txpower handle for mac80211 operations for `iw` and `wext`
+iAdd .get_txpower handle for mac80211 operations for `iw` and `wext`
 tools to get the underlying tx power (max limit).
 
 Signed-off-by: Chris Chiu <chiu@endlessos.org>
@@ -15,7 +15,7 @@ Signed-off-by: Chris Chiu <chiu@endlessos.org>
  3 files changed, 74 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.h b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.h
-index c15e4a52b9e5..3d16d6c9ff39 100644
+index 0810da7f01b1..35a23b5b20dc 100644
 --- a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.h
 +++ b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.h
 @@ -1319,6 +1319,7 @@ struct rtl8xxxu_priv {
@@ -26,7 +26,7 @@ index c15e4a52b9e5..3d16d6c9ff39 100644
  	u32 chip_cut:4;
  	u32 rom_rev:4;
  	u32 is_multi_func:1;
-@@ -1427,6 +1428,7 @@ struct rtl8xxxu_fileops {
+@@ -1430,6 +1431,7 @@ struct rtl8xxxu_fileops {
  	void (*disable_rf) (struct rtl8xxxu_priv *priv);
  	void (*usb_quirks) (struct rtl8xxxu_priv *priv);
  	u8 (*dbm_to_txpwridx)(struct rtl8xxxu_priv *priv, u16 mode, int dbm);
@@ -34,7 +34,7 @@ index c15e4a52b9e5..3d16d6c9ff39 100644
  	void (*set_tx_power) (struct rtl8xxxu_priv *priv, int channel,
  			      bool ht40);
  	void (*update_rate_mask) (struct rtl8xxxu_priv *priv,
-@@ -1513,6 +1515,7 @@ u8 rtl8xxxu_gen1_dbm_to_txpwridx(struct rtl8xxxu_priv *priv,
+@@ -1516,6 +1518,7 @@ u8 rtl8xxxu_gen1_dbm_to_txpwridx(struct rtl8xxxu_priv *priv,
  				 u16 mode, int dbm);
  void rtl8xxxu_gen1_set_tx_power(struct rtl8xxxu_priv *priv,
  				int channel, bool ht40);
@@ -55,7 +55,7 @@ index bb6df8cac82f..54f41af1015e 100644
  	.report_connect = rtl8xxxu_gen1_report_connect,
  	.fill_txdesc = rtl8xxxu_fill_txdesc_v1,
 diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
-index e8459cb6035f..585018383712 100644
+index cf08bb75116a..f2bf6e3ddc37 100644
 --- a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 +++ b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 @@ -1414,6 +1414,55 @@ rtl8xxxu_gen1_dbm_to_txpwridx(struct rtl8xxxu_priv *priv, u16 mode, int dbm)
@@ -114,7 +114,7 @@ index e8459cb6035f..585018383712 100644
  void
  rtl8xxxu_gen1_set_tx_power(struct rtl8xxxu_priv *priv, int channel, bool ht40)
  {
-@@ -4540,6 +4589,19 @@ rtl8xxxu_wireless_mode(struct ieee80211_hw *hw, struct ieee80211_sta *sta)
+@@ -4544,6 +4593,19 @@ rtl8xxxu_wireless_mode(struct ieee80211_hw *hw, struct ieee80211_sta *sta)
  	return network_type;
  }
  
@@ -134,7 +134,7 @@ index e8459cb6035f..585018383712 100644
  static void rtl8xxxu_update_txpower(struct rtl8xxxu_priv *priv, int power)
  {
  	bool ht40 = false;
-@@ -4569,10 +4631,12 @@ static void rtl8xxxu_update_txpower(struct rtl8xxxu_priv *priv, int power)
+@@ -4573,10 +4635,12 @@ static void rtl8xxxu_update_txpower(struct rtl8xxxu_priv *priv, int power)
  	ofdm_txpwridx = priv->fops->dbm_to_txpwridx(priv, WIRELESS_MODE_N_24G,
  						    power);
  
@@ -149,7 +149,7 @@ index e8459cb6035f..585018383712 100644
  
  	group = rtl8xxxu_gen1_channel_to_group(channel);
  
-@@ -4586,6 +4650,9 @@ static void rtl8xxxu_update_txpower(struct rtl8xxxu_priv *priv, int power)
+@@ -4590,6 +4654,9 @@ static void rtl8xxxu_update_txpower(struct rtl8xxxu_priv *priv, int power)
  		priv->ht40_1s_tx_power_index_B[i] = ofdm_txpwridx;
  	}
  
@@ -159,7 +159,7 @@ index e8459cb6035f..585018383712 100644
  	priv->fops->set_tx_power(priv, channel, ht40);
  }
  
-@@ -6542,6 +6609,7 @@ static const struct ieee80211_ops rtl8xxxu_ops = {
+@@ -6688,6 +6755,7 @@ static const struct ieee80211_ops rtl8xxxu_ops = {
  	.set_key = rtl8xxxu_set_key,
  	.ampdu_action = rtl8xxxu_ampdu_action,
  	.sta_statistics = rtl8xxxu_sta_statistics,

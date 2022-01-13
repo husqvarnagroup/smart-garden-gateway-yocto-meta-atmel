@@ -1,11 +1,11 @@
-From 19d3ddd382f4958e0c0eaabfc55d60a201443c65 Mon Sep 17 00:00:00 2001
+From 319f4d88b4ef7f0d7ede5388dfe0eff46d88475a Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chiu@endlessos.org>
 Date: Tue, 29 Sep 2020 15:51:25 +0800
-Subject: [PATCH] rtl8xxxu: add code to handle
+Subject: [PATCH] [toup] rtl8xxxu: Handle
  BSS_CHANGED_TXPOWER/IEEE80211_CONF_CHANGE_POWER
 
 The 'iw set txpower' is not handled by the driver. Use the existing
-set_tx_power function to apply the tx power change
+set_tx_power function to apply the TX power change.
 
 Signed-off-by: Chris Chiu <chiu@endlessos.org>
 (cherry picked from commit 48f8fbccb7dff2d3c5f72a4267313d3c4cfc7df9)
@@ -17,10 +17,10 @@ Signed-off-by: Chris Chiu <chiu@endlessos.org>
  4 files changed, 95 insertions(+)
 
 diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.h b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.h
-index d6d1be4169e5..c15e4a52b9e5 100644
+index d9098c3d61e6..0810da7f01b1 100644
 --- a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.h
 +++ b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.h
-@@ -1426,6 +1426,7 @@ struct rtl8xxxu_fileops {
+@@ -1429,6 +1429,7 @@ struct rtl8xxxu_fileops {
  	void (*enable_rf) (struct rtl8xxxu_priv *priv);
  	void (*disable_rf) (struct rtl8xxxu_priv *priv);
  	void (*usb_quirks) (struct rtl8xxxu_priv *priv);
@@ -28,7 +28,7 @@ index d6d1be4169e5..c15e4a52b9e5 100644
  	void (*set_tx_power) (struct rtl8xxxu_priv *priv, int channel,
  			      bool ht40);
  	void (*update_rate_mask) (struct rtl8xxxu_priv *priv,
-@@ -1508,6 +1509,8 @@ void rtl8xxxu_disabled_to_emu(struct rtl8xxxu_priv *priv);
+@@ -1511,6 +1512,8 @@ void rtl8xxxu_disabled_to_emu(struct rtl8xxxu_priv *priv);
  int rtl8xxxu_init_llt_table(struct rtl8xxxu_priv *priv);
  void rtl8xxxu_gen1_phy_iq_calibrate(struct rtl8xxxu_priv *priv);
  void rtl8xxxu_gen1_init_phy_bb(struct rtl8xxxu_priv *priv);
@@ -62,7 +62,7 @@ index 4f93f88716a9..a5d56f61c4eb 100644
  	.update_rate_mask = rtl8xxxu_update_rate_mask,
  	.report_connect = rtl8xxxu_gen1_report_connect,
 diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
-index 5cd7ef3625c5..e8459cb6035f 100644
+index 9289280037c0..cf08bb75116a 100644
 --- a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 +++ b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 @@ -1382,6 +1382,38 @@ void rtl8xxxu_gen2_config_channel(struct ieee80211_hw *hw)
@@ -104,7 +104,7 @@ index 5cd7ef3625c5..e8459cb6035f 100644
  void
  rtl8xxxu_gen1_set_tx_power(struct rtl8xxxu_priv *priv, int channel, bool ht40)
  {
-@@ -4508,6 +4540,55 @@ rtl8xxxu_wireless_mode(struct ieee80211_hw *hw, struct ieee80211_sta *sta)
+@@ -4512,6 +4544,55 @@ rtl8xxxu_wireless_mode(struct ieee80211_hw *hw, struct ieee80211_sta *sta)
  	return network_type;
  }
  
@@ -160,7 +160,7 @@ index 5cd7ef3625c5..e8459cb6035f 100644
  static void
  rtl8xxxu_bss_info_changed(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
  			  struct ieee80211_bss_conf *bss_conf, u32 changed)
-@@ -4604,6 +4685,12 @@ rtl8xxxu_bss_info_changed(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
+@@ -4608,6 +4689,12 @@ rtl8xxxu_bss_info_changed(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
  		dev_dbg(dev, "Changed BASIC_RATES!\n");
  		rtl8xxxu_set_basic_rates(priv, bss_conf->basic_rates);
  	}
@@ -173,7 +173,7 @@ index 5cd7ef3625c5..e8459cb6035f 100644
  error:
  	return;
  }
-@@ -5891,6 +5978,9 @@ static int rtl8xxxu_config(struct ieee80211_hw *hw, u32 changed)
+@@ -5906,6 +5993,9 @@ static int rtl8xxxu_config(struct ieee80211_hw *hw, u32 changed)
  		priv->fops->config_channel(hw);
  	}
  
