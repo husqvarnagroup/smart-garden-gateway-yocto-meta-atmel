@@ -1,4 +1,4 @@
-From 504bc3ad94cf3e4e433ab54d23f1e5ca0337fca1 Mon Sep 17 00:00:00 2001
+From 486ef97f7865062d3d30ba98c007fa25cf65bee0 Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chris.chiu@canonical.com>
 Date: Fri, 1 Oct 2021 12:00:44 +0800
 Subject: [PATCH] [fromup] rtl8xxxu: Use lower tx rates for the ack packet
@@ -26,7 +26,7 @@ Link: https://lore.kernel.org/r/20211001040044.1028708-1-chris.chiu@canonical.co
  2 files changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
-index 359246176a8d..bc6f19d0e785 100644
+index 5cbada789e2d..6480a45aecc8 100644
 --- a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 +++ b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 @@ -4460,13 +4460,17 @@ void rtl8xxxu_gen1_init_aggregation(struct rtl8xxxu_priv *priv)

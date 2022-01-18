@@ -1,4 +1,4 @@
-From 4045d89b0b8a326ee6ca94f329508e2e244fb09a Mon Sep 17 00:00:00 2001
+From 98ea5e60f15b0c3cca7866db2e9798893b8a875c Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chiu@endlessos.org>
 Date: Wed, 7 Oct 2020 11:08:59 +0800
 Subject: [PATCH] [toup] rtl8xxxu: Enable RX STBC by default
@@ -9,10 +9,10 @@ Subject: [PATCH] [toup] rtl8xxxu: Enable RX STBC by default
  1 file changed, 2 insertions(+)
 
 diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
-index f2bf6e3ddc37..266b83f427d9 100644
+index 2c53b9ccde41..c3fdc25890e2 100644
 --- a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 +++ b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
-@@ -6967,6 +6967,8 @@ static int rtl8xxxu_probe(struct usb_interface *interface,
+@@ -6981,6 +6981,8 @@ static int rtl8xxxu_probe(struct usb_interface *interface,
  		sband->ht_cap.mcs.rx_mask[1] = 0xff;
  		sband->ht_cap.cap |= IEEE80211_HT_CAP_SGI_40;
  	}

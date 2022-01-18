@@ -1,4 +1,4 @@
-From 350461203677a1a3877489ad730d648531e13aba Mon Sep 17 00:00:00 2001
+From 47ee4facba9adac62ef9e7f0f1b3c3772d760ea9 Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chris.chiu@canonical.com>
 Date: Wed, 4 Aug 2021 23:13:25 +0800
 Subject: [PATCH] [fromup] rtl8xxxu: Fix the handling of TX A-MPDU aggregation
@@ -21,7 +21,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 26 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.h b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.h
-index d6d1be4169e5..fedd542a6d15 100644
+index 6e83f45539d3..9392dbea9d98 100644
 --- a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.h
 +++ b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.h
 @@ -1383,6 +1383,8 @@ struct rtl8xxxu_priv {
@@ -34,7 +34,7 @@ index d6d1be4169e5..fedd542a6d15 100644
  	 * Only one virtual interface permitted because only STA mode
  	 * is supported and no iface_combinations are provided.
 diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
-index 5cd7ef3625c5..0d374a294840 100644
+index 305548084418..5cbada789e2d 100644
 --- a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 +++ b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 @@ -4805,6 +4805,8 @@ rtl8xxxu_fill_txdesc_v1(struct ieee80211_hw *hw, struct ieee80211_hdr *hdr,
@@ -93,7 +93,7 @@ index 5cd7ef3625c5..0d374a294840 100644
  		}
  	}
  
-@@ -6095,6 +6106,7 @@ rtl8xxxu_ampdu_action(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
+@@ -6096,6 +6107,7 @@ rtl8xxxu_ampdu_action(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
  	struct device *dev = &priv->udev->dev;
  	u8 ampdu_factor, ampdu_density;
  	struct ieee80211_sta *sta = params->sta;
@@ -101,7 +101,7 @@ index 5cd7ef3625c5..0d374a294840 100644
  	enum ieee80211_ampdu_mlme_action action = params->action;
  
  	switch (action) {
-@@ -6107,17 +6119,20 @@ rtl8xxxu_ampdu_action(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
+@@ -6108,17 +6120,20 @@ rtl8xxxu_ampdu_action(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
  		dev_dbg(dev,
  			"Changed HT: ampdu_factor %02x, ampdu_density %02x\n",
  			ampdu_factor, ampdu_density);

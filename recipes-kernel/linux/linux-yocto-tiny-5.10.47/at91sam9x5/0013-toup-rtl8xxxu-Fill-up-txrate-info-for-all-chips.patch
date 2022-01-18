@@ -1,4 +1,4 @@
-From 4fff9076d9786972a643d3de4fdf4932933102fa Mon Sep 17 00:00:00 2001
+From 17db3c052aa1803a0c2cb829230114554206648b Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chiu@endlessos.org>
 Date: Wed, 7 Oct 2020 16:40:48 +0800
 Subject: [PATCH] [toup] rtl8xxxu: Fill up txrate info for all chips
@@ -15,10 +15,10 @@ This commit follows the same way to avoid empty info for txrate.
  1 file changed, 57 insertions(+), 29 deletions(-)
 
 diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
-index 01227abda44c..24d1c0b40345 100644
+index 170099ab9b02..9d11bdca0bd4 100644
 --- a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 +++ b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
-@@ -4674,6 +4674,35 @@ static void rtl8xxxu_update_txpower(struct rtl8xxxu_priv *priv, int power)
+@@ -4674,6 +4674,35 @@ static void rtl8xxxu_update_tx_power(struct rtl8xxxu_priv *priv, int dbm)
  	priv->fops->set_tx_power(priv, channel, ht40);
  }
  
@@ -106,7 +106,7 @@ index 01227abda44c..24d1c0b40345 100644
  			priv->vif = vif;
  			priv->rssi_level = RTL8XXXU_RATR_STA_INIT;
  
-@@ -5572,35 +5629,6 @@ void rtl8723bu_handle_bt_info(struct rtl8xxxu_priv *priv)
+@@ -5571,35 +5628,6 @@ void rtl8723bu_handle_bt_info(struct rtl8xxxu_priv *priv)
  	}
  }
  

@@ -1,4 +1,4 @@
-From 5d1b58c1b6379aa688039a52f25e0a6d3d5ead6e Mon Sep 17 00:00:00 2001
+From c181e477b98492307a641ebc837a4f647b58388b Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chris.chiu@canonical.com>
 Date: Fri, 2 Jul 2021 00:33:54 +0800
 Subject: [PATCH] [fromup] rtl8xxxu: disable interrupt_in transfer for 8188cu
@@ -25,7 +25,7 @@ Link: https://lore.kernel.org/r/20210701163354.118403-1-chris.chiu@canonical.com
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
-index 25f5bf994362..359246176a8d 100644
+index 812b8298ce52..305548084418 100644
 --- a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 +++ b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 @@ -1670,7 +1670,7 @@ static int rtl8xxxu_identify_chip(struct rtl8xxxu_priv *priv)
