@@ -1,4 +1,4 @@
-From e9b2eade7adc974c9b4efc401ac3d0f20884c5d3 Mon Sep 17 00:00:00 2001
+From 9c146cfb0e070b65149ff2368db3b47cffa946ac Mon Sep 17 00:00:00 2001
 From: Reto Schneider <reto.schneider@husqvarnagroup.com>
 Date: Thu, 6 Jan 2022 00:06:58 +0100
 Subject: [PATCH] [toup] rtlwifi: Use mac80211 debugfs location

@@ -1,4 +1,4 @@
-From e3c777b426cdde22feb5f17592a6065d72367fb5 Mon Sep 17 00:00:00 2001
+From d94c03925cc8140ed762ae7b7ca24889f5fad489 Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chiu@endlessos.org>
 Date: Wed, 7 Oct 2020 15:20:56 +0800
 Subject: [PATCH] [toup] rtl8xxxu: Feed antenna information for mac80211
@@ -9,7 +9,7 @@ Subject: [PATCH] [toup] rtl8xxxu: Feed antenna information for mac80211
  1 file changed, 15 insertions(+)
 
 diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
-index 266b83f427d9..01227abda44c 100644
+index c3fdc25890e2..170099ab9b02 100644
 --- a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 +++ b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 @@ -1688,6 +1688,7 @@ static void rtl8xxxu_print_chipinfo(struct rtl8xxxu_priv *priv)
