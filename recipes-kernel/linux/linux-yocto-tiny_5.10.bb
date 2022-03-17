@@ -18,7 +18,7 @@ SRCREV_machine ?= "317635e1feaecfd8aa29bc94d8d03ba873190414"
 SRCREV_meta ?= "b53e11ea46f4e78ff4cb48532a11e1dbad7939b1"
 
 PV = "${LINUX_VERSION}+git${SRCPV}"
-PR_append = ".2"
+PR_append = ".3"
 
 SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.10;destsuffix=${KMETA} \
@@ -28,13 +28,14 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
            file://0004-fromup-rtl8xxxu-Simplify-locking-of-a-skb-list-acces.patch \
            file://0005-fromup-rtl8xxxu-avoid-parsing-short-RX-packet.patch \
            file://0006-fromup-rtl8xxxu-disable-interrupt_in-transfer-for-81.patch \
-           file://0008-fromup-rtl8xxxu-Use-lower-tx-rates-for-the-ack-packe.patch \
-           file://0009-toup-rtl8xxxu-Handle-BSS_CHANGED_TXPOWER-IEEE80211_C.patch \
-           file://0010-toup-rtl8xxxu-Handle-mac80211-get_txpower.patch \
-           file://0011-toup-rtl8xxxu-Enable-RX-STBC-by-default.patch \
-           file://0012-toup-rtl8xxxu-Feed-antenna-information-for-mac80211.patch \
-           file://0013-toup-rtl8xxxu-Fill-up-txrate-info-for-all-chips.patch \
-           file://0014-toup-rtl8xxxu-Fix-reported-RX-signal-strength.patch \
+           file://0007-fromup-rtl8xxxu-Use-lower-tx-rates-for-the-ack-packe.patch \
+           file://0008-toup-rtl8xxxu-Handle-BSS_CHANGED_TXPOWER-IEEE80211_C.patch \
+           file://0009-toup-rtl8xxxu-Handle-mac80211-get_txpower.patch \
+           file://0010-toup-rtl8xxxu-Enable-RX-STBC-by-default.patch \
+           file://0011-toup-rtl8xxxu-Feed-antenna-information-for-mac80211.patch \
+           file://0012-toup-rtl8xxxu-Fill-up-txrate-info-for-all-chips.patch \
+           file://0013-toup-rtl8xxxu-Fix-reported-RX-signal-strength.patch \
+           file://0014-toup-rtl8xxxu-Raise-error-level-of-IQK-failures.patch \
            file://defconfig \
           "
 FILESEXTRAPATHS_prepend := "${THISDIR}:${THISDIR}/${BPN}-${LINUX_VERSION}:"

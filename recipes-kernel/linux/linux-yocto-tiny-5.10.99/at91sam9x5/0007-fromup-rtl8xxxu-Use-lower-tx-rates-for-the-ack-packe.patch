@@ -1,4 +1,4 @@
-From 486ef97f7865062d3d30ba98c007fa25cf65bee0 Mon Sep 17 00:00:00 2001
+From 7a01c7cdcef4c04d0029ec6e2b270e92a32c084f Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chris.chiu@canonical.com>
 Date: Fri, 1 Oct 2021 12:00:44 +0800
 Subject: [PATCH] [fromup] rtl8xxxu: Use lower tx rates for the ack packet

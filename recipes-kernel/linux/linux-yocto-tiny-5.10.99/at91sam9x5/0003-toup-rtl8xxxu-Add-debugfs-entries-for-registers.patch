@@ -1,4 +1,4 @@
-From b8b9992ba50aa7b696620a4afc4760d1e64cf2dc Mon Sep 17 00:00:00 2001
+From 60ca1843f954c2f4c70413841a42f4e40622c5d8 Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chris.chiu@canonical.com>
 Date: Thu, 30 Sep 2021 17:11:37 +0800
 Subject: [PATCH] [toup] rtl8xxxu: Add debugfs entries for registers
@@ -15,10 +15,10 @@ Signed-Off-By: Chris Chiu <chrischiu@canonical.com>
  2 files changed, 132 insertions(+)
 
 diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.h b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.h
-index d6d1be4169e5..1286af2deabc 100644
+index b28fa0c4d180..6a98e1165df1 100644
 --- a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.h
 +++ b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.h
-@@ -1394,6 +1394,7 @@ struct rtl8xxxu_priv {
+@@ -1391,6 +1391,7 @@ struct rtl8xxxu_priv {
  	spinlock_t c2hcmd_lock;
  	struct rtl8xxxu_btcoex bt_coex;
  	struct rtl8xxxu_ra_report ra_report;
@@ -27,10 +27,10 @@ index d6d1be4169e5..1286af2deabc 100644
  
  struct rtl8xxxu_rx_urb {
 diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
-index 5cd7ef3625c5..965c9b28d199 100644
+index 0d374a294840..25f5bf994362 100644
 --- a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 +++ b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
-@@ -6436,6 +6436,133 @@ static void rtl8xxxu_stop(struct ieee80211_hw *hw)
+@@ -6451,6 +6451,133 @@ static void rtl8xxxu_stop(struct ieee80211_hw *hw)
  	rtl8xxxu_free_tx_resources(priv);
  }
  
@@ -164,7 +164,7 @@ index 5cd7ef3625c5..965c9b28d199 100644
  static const struct ieee80211_ops rtl8xxxu_ops = {
  	.tx = rtl8xxxu_tx,
  	.add_interface = rtl8xxxu_add_interface,
-@@ -6697,6 +6824,8 @@ static int rtl8xxxu_probe(struct usb_interface *interface,
+@@ -6712,6 +6839,8 @@ static int rtl8xxxu_probe(struct usb_interface *interface,
  		goto exit;
  	}
  
@@ -173,7 +173,7 @@ index 5cd7ef3625c5..965c9b28d199 100644
  	return 0;
  
  exit:
-@@ -6722,6 +6851,8 @@ static void rtl8xxxu_disconnect(struct usb_interface *interface)
+@@ -6737,6 +6866,8 @@ static void rtl8xxxu_disconnect(struct usb_interface *interface)
  	hw = usb_get_intfdata(interface);
  	priv = hw->priv;
  

@@ -1,4 +1,4 @@
-From 4826397bff6f0b5926c59bebededffcefd8034d9 Mon Sep 17 00:00:00 2001
+From 32d66120b18d5dd0372f8f7a4ba13dcd6afec5f3 Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chiu@endlessos.org>
 Date: Wed, 30 Sep 2020 10:20:15 +0800
 Subject: [PATCH] [toup] rtl8xxxu: Handle mac80211 get_txpower
@@ -15,10 +15,10 @@ Signed-off-by: Chris Chiu <chiu@endlessos.org>
  3 files changed, 61 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.h b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.h
-index ed2246f1f653..076cd071f348 100644
+index fdb95531ecfb..0475096402b2 100644
 --- a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.h
 +++ b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.h
-@@ -1325,6 +1325,7 @@ struct rtl8xxxu_priv {
+@@ -1320,6 +1320,7 @@ struct rtl8xxxu_priv {
  	struct rtl8723au_idx ht20_tx_power_diff[RTL8723B_TX_COUNT];
  	struct rtl8723au_idx ht40_tx_power_diff[RTL8723B_TX_COUNT];
  	struct rtl8xxxu_power_base *power_base;
@@ -26,7 +26,7 @@ index ed2246f1f653..076cd071f348 100644
  	u32 chip_cut:4;
  	u32 rom_rev:4;
  	u32 is_multi_func:1;
-@@ -1435,6 +1436,7 @@ struct rtl8xxxu_fileops {
+@@ -1430,6 +1431,7 @@ struct rtl8xxxu_fileops {
  	void (*disable_rf) (struct rtl8xxxu_priv *priv);
  	void (*usb_quirks) (struct rtl8xxxu_priv *priv);
  	u8 (*dbm_to_txpwridx)(struct rtl8xxxu_priv *priv, u16 mode, int dbm);
@@ -34,7 +34,7 @@ index ed2246f1f653..076cd071f348 100644
  	void (*set_tx_power) (struct rtl8xxxu_priv *priv, int channel,
  			      bool ht40);
  	void (*update_rate_mask) (struct rtl8xxxu_priv *priv,
-@@ -1521,6 +1523,7 @@ u8 rtl8xxxu_gen1_dbm_to_txpwridx(struct rtl8xxxu_priv *priv,
+@@ -1516,6 +1518,7 @@ u8 rtl8xxxu_gen1_dbm_to_txpwridx(struct rtl8xxxu_priv *priv,
  				 u16 mode, int dbm);
  void rtl8xxxu_gen1_set_tx_power(struct rtl8xxxu_priv *priv,
  				int channel, bool ht40);

@@ -1,4 +1,4 @@
-From 45793f672eba24fe4906e11ca77009c98256adc9 Mon Sep 17 00:00:00 2001
+From 6b67b99b74451b0b92fd2002e0e8340904464e5f Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?=C3=8D=C3=B1igo=20Huguet?= <ihuguet@redhat.com>
 Date: Tue, 11 May 2021 09:19:27 +0200
 Subject: [PATCH] [fromup] rtl8xxxu: avoid parsing short RX packet
@@ -44,10 +44,10 @@ Link: https://lore.kernel.org/r/20210511071926.8951-1-ihuguet@redhat.com
  1 file changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
-index 9fca25ed59ac..812b8298ce52 100644
+index dbd89c1dc63b..7abea33e78dd 100644
 --- a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
 +++ b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
-@@ -5554,6 +5554,11 @@ int rtl8xxxu_parse_rxdesc16(struct rtl8xxxu_priv *priv, struct sk_buff *skb)
+@@ -5565,6 +5565,11 @@ int rtl8xxxu_parse_rxdesc16(struct rtl8xxxu_priv *priv, struct sk_buff *skb)
  	urb_len = skb->len;
  	pkt_cnt = 0;
  
@@ -59,7 +59,7 @@ index 9fca25ed59ac..812b8298ce52 100644
  	do {
  		rx_desc = (struct rtl8xxxu_rxdesc16 *)skb->data;
  		_rx_desc_le = (__le32 *)skb->data;
-@@ -5581,7 +5586,7 @@ int rtl8xxxu_parse_rxdesc16(struct rtl8xxxu_priv *priv, struct sk_buff *skb)
+@@ -5592,7 +5597,7 @@ int rtl8xxxu_parse_rxdesc16(struct rtl8xxxu_priv *priv, struct sk_buff *skb)
  		 * at least cover the rx descriptor
  		 */
  		if (pkt_cnt > 1 &&
@@ -68,7 +68,7 @@ index 9fca25ed59ac..812b8298ce52 100644
  			next_skb = skb_clone(skb, GFP_ATOMIC);
  
  		rx_status = IEEE80211_SKB_RXCB(skb);
-@@ -5627,7 +5632,9 @@ int rtl8xxxu_parse_rxdesc16(struct rtl8xxxu_priv *priv, struct sk_buff *skb)
+@@ -5638,7 +5643,9 @@ int rtl8xxxu_parse_rxdesc16(struct rtl8xxxu_priv *priv, struct sk_buff *skb)
  
  		pkt_cnt--;
  		urb_len -= pkt_offset;

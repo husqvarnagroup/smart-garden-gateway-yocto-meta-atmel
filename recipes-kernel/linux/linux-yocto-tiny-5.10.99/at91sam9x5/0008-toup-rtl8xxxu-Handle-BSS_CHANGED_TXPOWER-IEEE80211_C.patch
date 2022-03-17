@@ -1,4 +1,4 @@
-From 1f44b576730cb898a2f9803063e5a57d2bf49dbb Mon Sep 17 00:00:00 2001
+From ebb6dc9e3728963bd215ab1e1c477325636cad41 Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chiu@endlessos.org>
 Date: Tue, 29 Sep 2020 15:51:25 +0800
 Subject: [PATCH] [toup] rtl8xxxu: Handle
@@ -17,10 +17,10 @@ Signed-off-by: Chris Chiu <chiu@endlessos.org>
  4 files changed, 128 insertions(+)
 
 diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.h b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.h
-index 9392dbea9d98..ed2246f1f653 100644
+index 65d3ab47e84b..fdb95531ecfb 100644
 --- a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.h
 +++ b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.h
-@@ -1301,6 +1301,12 @@ struct rtl8xxxu_priv {
+@@ -1296,6 +1296,12 @@ struct rtl8xxxu_priv {
  	u8 cck_tx_power_index_B[RTL8XXXU_MAX_CHANNEL_GROUPS];
  	u8 ht40_1s_tx_power_index_A[RTL8XXXU_MAX_CHANNEL_GROUPS];
  	u8 ht40_1s_tx_power_index_B[RTL8XXXU_MAX_CHANNEL_GROUPS];
@@ -33,7 +33,7 @@ index 9392dbea9d98..ed2246f1f653 100644
  	/*
  	 * The following entries are half-bytes split as:
  	 * bits 0-3: path A, bits 4-7: path B, all values 4 bits signed
-@@ -1428,6 +1434,7 @@ struct rtl8xxxu_fileops {
+@@ -1423,6 +1429,7 @@ struct rtl8xxxu_fileops {
  	void (*enable_rf) (struct rtl8xxxu_priv *priv);
  	void (*disable_rf) (struct rtl8xxxu_priv *priv);
  	void (*usb_quirks) (struct rtl8xxxu_priv *priv);
@@ -41,7 +41,7 @@ index 9392dbea9d98..ed2246f1f653 100644
  	void (*set_tx_power) (struct rtl8xxxu_priv *priv, int channel,
  			      bool ht40);
  	void (*update_rate_mask) (struct rtl8xxxu_priv *priv,
-@@ -1510,6 +1517,8 @@ void rtl8xxxu_disabled_to_emu(struct rtl8xxxu_priv *priv);
+@@ -1505,6 +1512,8 @@ void rtl8xxxu_disabled_to_emu(struct rtl8xxxu_priv *priv);
  int rtl8xxxu_init_llt_table(struct rtl8xxxu_priv *priv);
  void rtl8xxxu_gen1_phy_iq_calibrate(struct rtl8xxxu_priv *priv);
  void rtl8xxxu_gen1_init_phy_bb(struct rtl8xxxu_priv *priv);

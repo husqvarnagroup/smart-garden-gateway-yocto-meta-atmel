@@ -1,4 +1,4 @@
-From 17db3c052aa1803a0c2cb829230114554206648b Mon Sep 17 00:00:00 2001
+From 613c6b12e09f7513850b943021ea65a6eaa01b51 Mon Sep 17 00:00:00 2001
 From: Chris Chiu <chiu@endlessos.org>
 Date: Wed, 7 Oct 2020 16:40:48 +0800
 Subject: [PATCH] [toup] rtl8xxxu: Fill up txrate info for all chips
